@@ -1,15 +1,23 @@
 <template>
-  <Editor mode="edit" >
-    <Graph />
-  </Editor> 
+  <div id="app">
+    <Editor mode="edit">
+      <Graph :data="data" />
+    </Editor>
+  </div>
 </template>
 
 <script>
-import Editor, { Graph } from "@/components/Editor";
+import data from '../mock/data.json'
+import Editor, { Graph } from '@/components/Editor'
 export default {
-  name: "App",
-  components: { Editor, Graph }
-};
+  name: 'App',
+  components: { Editor, Graph },
+  data() {
+    return {
+      data
+    }
+  }
+}
 </script>
 
 <style>
@@ -25,6 +33,6 @@ body {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+  height: 100%;
 }
 </style>

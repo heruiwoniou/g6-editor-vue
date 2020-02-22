@@ -1,2 +1,1 @@
-export default class CommandManager {
-}
+export default class CommandManager {}

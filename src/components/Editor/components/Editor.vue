@@ -3,25 +3,28 @@
 </template>
 <script>
 export default {
-  name: "Editor",
+  name: 'Editor',
   provide: {
-    core: {}
+    context: {
+      core: null
+    }
   },
   props: {
     mode: {
       type: String,
-      default: "view",
+      default: 'view',
       validator(val) {
-        return ["view", "edit"].includes(val);
+        return ['view', 'edit'].includes(val)
       }
     }
   }
-};
+}
 </script>
 <style lang="stylus">
 .editor-container {
   height: 100%;
   width: 100%;
+  display: flex;
   position: relative;
   user-select: none;
   -moz-user-select: none;
