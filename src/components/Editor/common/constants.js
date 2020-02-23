@@ -50,35 +50,35 @@ export const EditorEvent = {
   onLabelStateChange: 'onLabelStateChange'
 }
 
-export const EditorCommand = {
+export const EditorBuiltInCommand = {
   /** 撤销 */
-  Undo: 'undo',
+  Undo: 'Undo',
   /** 重做 */
-  Redo: 'redo',
+  Redo: 'Redo',
   /** 添加 */
-  Add: 'add',
+  Add: 'Add',
   /** 更新 */
-  Update: 'update',
+  Update: 'Update',
   /** 删除 */
-  Remove: 'remove',
+  Remove: 'Remove',
   /** 复制 */
-  Copy: 'copy',
+  Copy: 'Copy',
   /** 粘贴 */
-  Paste: 'paste',
+  Paste: 'Paste',
   /** 粘贴到这里 */
-  PasteHere: 'pasteHere',
+  PasteHere: 'PasteHere',
   /** 放大 */
-  ZoomIn: 'zoomIn',
+  ZoomIn: 'ZoomIn',
   /** 缩小 */
-  ZoomOut: 'zoomOut',
+  ZoomOut: 'ZoomOut',
   /** 插入主题 */
-  Topic: 'topic',
+  Topic: 'Topic',
   /** 插入子主题 */
-  Subtopic: 'subtopic',
+  Subtopic: 'Subtopic',
   /** 收起 */
-  Fold: 'fold',
+  Fold: 'Fold',
   /** 展开 */
-  Unfold: 'unfold'
+  Unfold: 'Unfold'
 }
 
 export const GraphCommonEvent = {

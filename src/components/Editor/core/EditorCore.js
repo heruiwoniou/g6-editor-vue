@@ -11,8 +11,4 @@ export default class EditorCore {
     this.commandManager = new CommandManager(this.graph)
     this.behaviorManager = new BehaviorManager(this.graph)
   }
-
-  executeCommand(name, ...args) {
-    this.commandManager.execute(name, ...args)
-  }
 }
