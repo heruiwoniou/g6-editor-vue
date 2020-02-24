@@ -1,6 +1,6 @@
 import { ItemState } from '../../common/constants'
 
-const HoverItemBehavior = {
+export default {
   getEvents() {
     return {
       'node:mouseenter': 'handleItemMouseenter',
@@ -23,4 +23,3 @@ const HoverItemBehavior = {
   }
 }
 
-export default HoverItemBehavior

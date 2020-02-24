@@ -1,7 +1,7 @@
 import { getFlowRecallEdges, getMindRecallEdges, executeBatch } from '../../utils'
 import { ItemState } from '../../common/constants'
 
-const RecallEdgeBehavior = {
+export default {
   edgeIds: [],
 
   getEvents() {
@@ -58,5 +58,3 @@ const RecallEdgeBehavior = {
     this.clearHighLightState()
   }
 }
-
-export default RecallEdgeBehavior

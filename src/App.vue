@@ -7,9 +7,9 @@
             <el-divider v-if="item === '|'" direction="vertical" />
             <Command tag="el-button" :name="item.name" v-else>
               <template v-slot="{ disabled }">
-                <el-button type="primary" :disabled="disabled" size="mini" plain :icon="item.icon">
-                  {{ item.name }}
-                </el-button>
+                <el-tooltip class="item" effect="dark" :content="item.name" placement="bottom">
+                  <el-button type="primary" :disabled="disabled" size="mini" plain :icon="item.icon" />
+                </el-tooltip>
               </template>
             </Command>
           </li>
@@ -77,6 +77,7 @@ body {
     }
   }
   .editor-layout--graph {
+    background: rgba(0,0,0,.065);
     flex: 1;
   }
 }

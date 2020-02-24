@@ -1,4 +1,4 @@
-const DragCanvasBehavior = {
+export default {
   origin: null,
 
   keyCode: null,
@@ -160,5 +160,3 @@ const DragCanvasBehavior = {
     this.keyCode = null
   }
 }
-
-export default DragCanvasBehavior

@@ -103,3 +103,29 @@ export function clearSelectedState(graph, shouldUpdate = () => true) {
     });
   });
 }
+
+/** 获取回溯路径 */
+export function getFlowRecallEdges(graph, node, targetIds = [], edges = []) {
+  const inEdges = node.getInEdges();
+
+  if (!inEdges.length) {
+    return [];
+  }
+
+  inEdges.map(edge => {
+    const sourceId = edge.getModel().source;
+    const sourceNode = graph.findById(sourceId);
+
+    edges.push(edge);
+
+    const targetId = node.get('id');
+
+    targetIds.push(targetId);
+
+    if (!targetIds.includes(sourceId)) {
+      getFlowRecallEdges(graph, sourceNode, targetIds, edges);
+    }
+  });
+
+  return edges;
+}

@@ -17,10 +17,6 @@ export const ItemState = {
   Error: 'error'
 }
 
-export const GraphType = {
-  Flow: 'flow'
-}
-
 export const GraphMode = {
   Default: 'default',
   AddNode: 'addNode',

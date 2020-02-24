@@ -9,14 +9,17 @@ export default class CommandManager {
   command = {}
   commandQueue = []
   commandIndex = 0
-  constructor(graph) {
-    this.graph = graph
+  constructor() {
     Object.keys(BuiltInCommands).forEach(commandName => {
       this.register(commandName, {
         ...BaseCommand,
         ...BuiltInCommands[commandName]
       })
     })
+  }
+
+  setGraph(graph) {
+    this.graph = graph
   }
 
   /** 判断是否为内置Command */

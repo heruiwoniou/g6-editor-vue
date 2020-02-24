@@ -1,7 +1,7 @@
 import { getGraphState, clearSelectedState } from '../../utils';
 import { ItemState, GraphState, EditorEvent } from '../../common/constants';
 
-const ClickItemBehavior = {
+export default {
   getDefaultCfg() {
     return {
       multiple: true,
@@ -60,5 +60,3 @@ const ClickItemBehavior = {
     this.keydown = false;
   },
 }
-
-export default ClickItemBehavior

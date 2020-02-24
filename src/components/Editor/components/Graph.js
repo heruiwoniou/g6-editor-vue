@@ -2,7 +2,7 @@ import { guid } from '../utils'
 import EditorCore from '../core'
 import inject from '../common/inject'
 export default {
-  mixins: [ inject ], 
+  mixins: [inject],
   props: {
     data: Object,
     graphConfig: {
@@ -10,7 +10,9 @@ export default {
       default() {
         return {}
       }
-    }
+    },
+    canDragNode: Function,
+    canDragOrZoomCanvas: Function
   },
   data() {
     return {
@@ -19,8 +21,15 @@ export default {
   },
   mounted() {
     const { clientWidth: width = 0, clientHeight: height = 0 } = this.$el || {}
-    const core = new EditorCore({ container: this.$el, width, height, ...this.graphConfig })
-    core.graph.read(this.data)
+    const { canDragNode, canDragOrZoomCanvas } = this
+    const core = new EditorCore(
+      { container: this.$el, width, height, ...this.graphConfig },
+      {
+        canDragNode,
+        canDragOrZoomCanvas
+      }
+    )
+    core.read(this.data)
     this.context.delayCore.resolve(core)
   },
   render() {
