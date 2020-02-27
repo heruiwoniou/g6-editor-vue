@@ -44,5 +44,13 @@ export default {
       ['Z'], // 封闭
     ];
     return path;
+  },
+  getAnchorPoints() {
+    return [
+      [0, 0.5],
+      [1, 0.5],
+      [0.5, 0],
+      [0.5, 1]
+    ]
   }
 }
