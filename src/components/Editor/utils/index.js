@@ -129,3 +129,11 @@ export function getFlowRecallEdges(graph, node, targetIds = [], edges = []) {
 
   return edges;
 }
+
+export const transformKebabCase = (name = '') => {
+  return name.replace(/([A-Z])/g, s => `-${s.toLocaleLowerCase()}`).replace(/^-/, '')
+}
+
+export const transformVueEventName = (name = '') => {
+  return transformKebabCase(name.replace(/^on/i, ''))
+}

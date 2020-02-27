@@ -1,11 +1,14 @@
 <template>
   <div id="app">
-    <Editor mode="edit">
+    <Editor mode="edit" 
+      @before-execute-command="onBeforeExecuteCommand"
+      @after-execute-command="onAfterExecuteCommand"
+    >
       <div class="editor-layout--container">
         <ul class="editor-layout--toolbar">
           <li v-for="item in toolbar" :key="item.name">
             <el-divider v-if="item === '|'" direction="vertical" />
-            <Command tag="el-button" :name="item.name" v-else>
+            <Command tag="el-button" :name="item.cmd" :params="item.params" v-else>
               <template v-slot="{ disabled }">
                 <el-tooltip class="item" effect="dark" :content="item.name" placement="bottom">
                   <el-button type="primary" :disabled="disabled" size="mini" plain :icon="item.icon" />
@@ -17,6 +20,7 @@
         <Graph :data="data">
           <div class="editor-layout--graph"></div>
         </Graph>
+        <RegisterNode :name="Diamond.name" :config="Diamond" />
       </div>
     </Editor>
   </div>
@@ -24,20 +28,45 @@
 
 <script>
 import data from '../mock/data.json'
-import Editor, { Graph, Command, EditorBuiltInCommand } from '@/components/Editor'
+import Diamond from './components/Custom/Nodes/Diamond'
+import Editor, { Graph, Command, RegisterNode, EditorBuiltInCommand, ItemType } from '@/components/Editor'
 export default {
   name: 'App',
-  components: { Editor, Graph, Command },
+  components: { Editor, Graph, Command, RegisterNode },
   data() {
     return {
+      Diamond,
       data,
       toolbar: [
-        { name: EditorBuiltInCommand.Undo, icon: 'el-icon-back' },
-        { name: EditorBuiltInCommand.Redo, icon: 'el-icon-right' },
+        { name: '撤销', cmd: EditorBuiltInCommand.Undo, icon: 'el-icon-back' },
+        { name: '重做', cmd: EditorBuiltInCommand.Redo, icon: 'el-icon-right' },
         '|',
-        { name: EditorBuiltInCommand.ZoomIn, icon: 'el-icon-zoom-in' },
-        { name: EditorBuiltInCommand.ZoomOut, icon: 'el-icon-zoom-out' }
+        { name: '添加FlowNode', cmd: EditorBuiltInCommand.Add, icon: 'el-icon-circle-plus-outline' },
+        { name: '添加CustomRect', cmd: EditorBuiltInCommand.Add, icon: 'el-icon-circle-plus-outline' ,params: { model: { shape: Diamond.name }} },
+        { name: '删除', cmd: EditorBuiltInCommand.Remove, icon: 'el-icon-delete' },
+        '|',
+        { name: '放大', cmd: EditorBuiltInCommand.ZoomIn, icon: 'el-icon-zoom-in' },
+        { name: '缩小', cmd: EditorBuiltInCommand.ZoomOut, icon: 'el-icon-zoom-out' }
       ]
+    }
+  },
+  methods: {
+    onBeforeExecuteCommand(cfg) {
+      switch(cfg.name) {
+        case EditorBuiltInCommand.Add: {
+          if (cfg.params.type === ItemType.Node) {
+            let name
+            if ((name = prompt('请输入名称'))) {
+              cfg.params.model.label = name || 'Node' 
+            } else {
+              return false
+            }
+          }
+        }
+      }
+    },
+    onAfterExecuteCommand(params) {
+     console.log(params) 
     }
   }
 }

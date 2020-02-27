@@ -4,17 +4,22 @@ import BuiltInBehaviors from '../built-in/behaviors'
 export default class BehaviorManager {
   guid = null
   behaviors = {}
-  constructor(guid) {
+  commandManager  = null
+  constructor(guid, commandManager) {
     this.guid = guid
+    this.commandManager = commandManager
     Object.keys(BuiltInBehaviors).forEach(behaviorName => {
-      this.registoer(behaviorName, BuiltInBehaviors[behaviorName], true)
+      this.registoer(behaviorName, BuiltInBehaviors[behaviorName])
     })
   }
 
-  registoer(name, behavior, isBuiltIn = false) {
-    name = isBuiltIn ? name: this.wrapBehaviorName(name)
+  registoer(name, behavior) {
+    name = this.wrapBehaviorName(name)
     this.behaviors[name] = behavior
-    G6.registerBehavior(name, behavior)
+    G6.registerBehavior(name, {
+      commandManager: this.commandManager,
+      ...behavior
+    })
   }
 
   getRegisteredBehaviors() {

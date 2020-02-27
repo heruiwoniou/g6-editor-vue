@@ -1,4 +1,4 @@
-import { getFlowRecallEdges, getMindRecallEdges, executeBatch } from '../../utils'
+import { getFlowRecallEdges, executeBatch } from '../../utils'
 import { ItemState } from '../../common/constants'
 
 export default {

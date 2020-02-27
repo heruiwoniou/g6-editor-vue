@@ -1,4 +1,4 @@
-import { isMind, executeBatch } from '../../utils'
+import { executeBatch } from '../../utils'
 import { ItemType } from '../../common/constants'
 
 export default {

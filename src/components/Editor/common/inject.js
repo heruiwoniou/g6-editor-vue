@@ -1,7 +1,8 @@
 export default {
   inject: ['context'],
   data() {
-    this.core = { get: this.context.delayCore.get }
-    return null
+    this.delayCore = this.context.delayCore.get
+    this.core = this.context.core
+    return {}
   }
 }

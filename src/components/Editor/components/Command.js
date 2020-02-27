@@ -1,14 +1,13 @@
 import { EditorEvent } from '../common/constants'
-import BaseCommand from '../built-in/commands/Base'
-import builInCommands from '../built-in/commands'
 import inject from '../common/inject'
+import cloneDeep from 'lodash/cloneDeep'
 
 export default {
   inheritAttrs: false,
   mixins: [inject],
   props: {
     name: String,
-    comfig: {
+    params: {
       type: Object,
       default() {
         return {}
@@ -21,13 +20,7 @@ export default {
     }
   },
   async mounted() {
-    const { graph, commandManager } = await this.core.get
-    if (!commandManager.isBuiltInCommand(this.name)) {
-      commandManager.register(this.name, {
-        ...BaseCommand,
-        ...this.config
-      })
-    }
+    const { graph, commandManager } = await this.delayCore
     graph.on(
       EditorEvent.onGraphStateChange,
       () => (this.disabled = !commandManager.canExecute(this.name))
@@ -36,11 +29,11 @@ export default {
   },
   methods: {
     async handleClick() {
-      const { commandManager } = await this.core.get
-      commandManager.execute(this.name)
+      const { commandManager } = await this.delayCore
+      commandManager.execute(this.name, cloneDeep(this.params))
     }
   },
-  render(h) {
+  render() {
     const vnodes = this.$scopedSlots.default({ disabled: this.disabled })
     if (vnodes && vnodes.length) {
       vnodes[0].data.on = {

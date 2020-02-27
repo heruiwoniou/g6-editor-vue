@@ -1,16 +1,29 @@
 import { ItemType } from '../../common/constants'
 import { guid } from '../../utils'
 
+const NODE_DEFAULT_NAME = 'Node'
+const EDGE_DEFAULT_NAME = 'Label'
+
 export default {
-  name: 'Add',
+  name: 'AddNode',
   params: {
     type: ItemType.Node,
     model: {
-      id: ''
+      id: '',
+      label: ''
     }
   },
   init() {
-    const { model } = this.params
+    const { model, type } = this.params
+
+    if (!model.label) {
+      model.label = type === ItemType.Node ? NODE_DEFAULT_NAME : EDGE_DEFAULT_NAME
+    }
+
+    if (ItemType.Node === type) {
+      model.x = model.x || 10
+      model.y = model.y || 10
+    }
 
     if (model.id) {
       return
@@ -29,7 +42,6 @@ export default {
 
   undo(graph) {
     const { model } = this.params
-
     graph.remove(model.id)
   }
 }
