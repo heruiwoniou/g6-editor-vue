@@ -1,18 +1,16 @@
 import merge from 'lodash/merge'
 import isArray from 'lodash/isArray'
-import { ItemState } from '../../../../common/constants'
-import { optimizeMultilineText } from '../../utils'
-import { handleAnchor } from './Anchor'
+import { ItemState } from '../../../common/constants'
+import { optimizeMultilineText } from '../utils'
 
 const WRAPPER_BORDER_WIDTH = 2
-const WRAPPER_HORIZONTAL_PADDING = 10
+const WRAPPER_HORIZONTAL_PADDING = 20
 
 const WRAPPER_CLASS_NAME = 'node-wrapper'
 const CONTENT_CLASS_NAME = 'node-content'
 const LABEL_CLASS_NAME = 'node-label'
 
 const BaseNode = {
-  getCustomConfig: model => model,
   options: {
     size: [120, 60],
     wrapperStyle: {
@@ -43,7 +41,7 @@ const BaseNode = {
   },
 
   getOptions(model) {
-    return merge({}, this.options, this.getCustomConfig(model) || {}, model)
+    return merge({}, this.options, model)
   },
 
   draw(model, group) {
@@ -130,16 +128,7 @@ const BaseNode = {
     this.setLabelText(model, group)
   },
 
-  handleAnchor,
-
-  beforeSetState(name, value, item) {
-    this.handleAnchor.call(this, name, value, item);
-  },
-
   setState(name, value, item) {
-    if (this.beforeSetState) {
-      this.beforeSetState(name, value, item)
-    }
 
     const group = item.getContainer()
     const model = item.getModel()

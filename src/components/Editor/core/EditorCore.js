@@ -7,6 +7,7 @@ import BehaviorManager from './BehaviorManager'
 import BuiltInNodes from '../built-in/shape/nodes'
 import BuiltInEdges from '../built-in/shape/edges'
 import { ItemState, EditorEvent } from '../common/constants'
+import bindHandles from '../built-in/common/bindHandles'
 
 export default class EditorCore {
   guid = null
@@ -87,7 +88,7 @@ export default class EditorCore {
     switch (type) {
       case 'node': {
         const { extend, ...config } = options
-        G6.registerNode(name, config, extend)
+        G6.registerNode(name, bindHandles(config), extend)
         break
       }
       case 'edge': {

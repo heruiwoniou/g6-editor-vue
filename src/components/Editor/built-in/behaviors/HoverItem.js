@@ -12,7 +12,6 @@ export default {
 
   handleItemMouseenter({ item }) {
     const { graph } = this
-
     graph.setItemState(item, ItemState.Active, true)
   },
 
