@@ -1,10 +1,10 @@
 import merge from 'lodash/merge'
 import isArray from 'lodash/isArray'
 import { ItemState } from '../../../common/constants'
-import { optimizeMultilineText } from '../utils'
+import { optimizeMultilineText } from '../../../utils'
 
 const WRAPPER_BORDER_WIDTH = 2
-const WRAPPER_HORIZONTAL_PADDING = 20
+const WRAPPER_HORIZONTAL_PADDING = 10
 
 const WRAPPER_CLASS_NAME = 'node-wrapper'
 const CONTENT_CLASS_NAME = 'node-content'
@@ -102,6 +102,8 @@ const BaseNode = {
         ...labelStyle
       }
     })
+
+    this.setLabelText(model, group)
 
     return shape
   },

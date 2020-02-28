@@ -28,7 +28,7 @@
 
 <script>
 import data from '../mock/data.json'
-import Diamond from './components/Custom/Nodes/Diamond'
+import Diamond from './components/Custom/Shapes/Diamond'
 import Editor, { Graph, Command, RegisterNode, EditorBuiltInCommand, ItemType } from '@/components/Editor'
 export default {
   name: 'App',

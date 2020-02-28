@@ -1,5 +1,7 @@
-import { ItemState } from '@/components/Editor'
+import { ItemState, optimizeMultilineText } from './node_modules/@/components/Editor'
+
 const WRAPPER_BORDER_WIDTH = 2
+const WRAPPER_HORIZONTAL_PADDING = 20
 const WRAPPER_CLASS_NAME = 'diamond-wrapper'
 
 export default {
@@ -56,7 +58,7 @@ export default {
     })
 
     if (model.label) {
-      group.addShape('text', {
+      const textShape = group.addShape('text', {
         attrs: {
           x: width / 2,
           y: height / 2,
@@ -65,6 +67,13 @@ export default {
           text: model.label,
           fill: '#666'
         }
+      })
+      const { fontStyle, fontWeight, fontSize, fontFamily } = textShape.attr()
+      const text = model.label
+      const font = `${fontStyle} ${fontWeight} ${fontSize}px ${fontFamily}`
+
+      textShape.attr({
+        text: optimizeMultilineText(model.label, font, 2, width - WRAPPER_HORIZONTAL_PADDING * 2)
       })
     }
     return wrapper

@@ -7,21 +7,18 @@ import isArray from 'lodash/isArray'
 import { GraphCommonEvent, RendererType } from '../common/constants'
 
 export default class CommandManager {
-  graph = null
+  core = null
   command = {}
   commandQueue = []
   commandIndex = 0
-  constructor() {
+  constructor(core) {
+    this.core = core
     Object.keys(BuiltInCommands).forEach(commandName => {
       this.register(commandName, {
         ...BaseCommand,
         ...BuiltInCommands[commandName]
       })
     })
-  }
-
-  setGraph(graph) {
-    this.graph = graph
   }
 
   /** 判断是否为内置Command */
@@ -40,7 +37,7 @@ export default class CommandManager {
   /** 执行命令 */
   execute(name, params) {
     const { 
-      graph,
+      core: { graph },
       command: {
         [name]: Command
       }
@@ -97,7 +94,7 @@ export default class CommandManager {
   }
   /** 判断是否可以执行 */
   canExecute(name) {
-    return this.command[name].canExecute(this.graph, this);
+    return this.command[name].canExecute(this.core.graph, this);
   }
 
   bindCommandShortcuts() {
@@ -105,8 +102,8 @@ export default class CommandManager {
       this.lastMousedownTarget = e.target;
     });
 
-    this.graph.on(GraphCommonEvent.onKeyDown, (e) => {
-      if (!this.shouldTriggerShortcut(this.graph, this.lastMousedownTarget)) {
+    this.core.graph.on(GraphCommonEvent.onKeyDown, (e) => {
+      if (!this.shouldTriggerShortcut(this.core.graph, this.lastMousedownTarget)) {
         return;
       }
 

@@ -2,12 +2,14 @@ import G6 from '@antv/g6'
 import BuiltInBehaviors from '../built-in/behaviors'
 
 export default class BehaviorManager {
+  core = null
   guid = null
   behaviors = {}
   commandManager  = null
-  constructor(guid, commandManager) {
-    this.guid = guid
-    this.commandManager = commandManager
+  constructor(core) {
+    this.core = core
+    this.guid = core.guid
+    this.commandManager = core.commandManager
     Object.keys(BuiltInBehaviors).forEach(behaviorName => {
       this.registoer(behaviorName, BuiltInBehaviors[behaviorName])
     })

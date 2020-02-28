@@ -14,6 +14,8 @@ export default class EditorCore {
   graph = null
   commandManager = null
   behaviorManager = null
+  shapePreview = {}
+  clipboard = { models: [] }
   defaultConfig = {
     defaultNode: {
       shape: 'FlowNode'
@@ -73,12 +75,11 @@ export default class EditorCore {
 
   initialize(graphConfig, editorConfig) {
     this.guid = guid()
-    this.commandManager = new CommandManager()
-    this.behaviorManager = new BehaviorManager(this.guid, this.commandManager)
+    this.commandManager = new CommandManager(this)
+    this.behaviorManager = new BehaviorManager(this)
     this.setOptions(graphConfig, editorConfig)
     this.registerBuiltInShape()
     this.graph = new G6.Graph(this.options)
-    this.commandManager.setGraph(this.graph)
     this.commandManager.bindCommandShortcuts()
   }
 
@@ -88,7 +89,9 @@ export default class EditorCore {
     switch (type) {
       case 'node': {
         const { extend, ...config } = options
-        G6.registerNode(name, bindHandles(config), extend)
+        const drawConfig = bindHandles(config)
+        G6.registerNode(name, drawConfig, extend)
+        this.buildPreview(name, drawConfig, extend)
         break
       }
       case 'edge': {
@@ -131,6 +134,10 @@ export default class EditorCore {
     })
 
     this.graph.read(data)
+  }
+
+  buildPreview() {
+    
   }
 
   canDragNode(...args) {
