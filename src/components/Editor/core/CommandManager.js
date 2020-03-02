@@ -73,7 +73,7 @@ export default class CommandManager {
       params: command.params,
     });
 
-    command.execute(graph, this);
+    let ret = command.execute(graph, this);
 
     graph.emit(EditorEvent.onAfterExecuteCommand, {
       name: command.name,

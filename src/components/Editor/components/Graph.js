@@ -1,6 +1,7 @@
 import { guid } from '../utils'
 import EditorCore from '../core'
 import inject from '../common/inject'
+import { EditorEvent } from '../common/constants'
 export default {
   mixins: [inject],
   props: {
@@ -16,20 +17,20 @@ export default {
   },
   data() {
     return {
-      guid: guid()
+      guid: `editor-${guid()}`
     }
   },
   mounted() {
     const { clientWidth: width = 0, clientHeight: height = 0 } = this.$el || {}
     const { canDragNode, canDragOrZoomCanvas } = this
     const core = new EditorCore(
-      { container: this.$el, width, height, ...this.graphConfig },
+      { guid: this.guid, container: this.$el, width, height, ...this.graphConfig },
       {
         canDragNode,
         canDragOrZoomCanvas
       }
     )
-    core.read(this.data)
+    core.once(EditorEvent.onAfterEditorReady, () => core.read(this.data))
     this.context.delayCore.resolve(core)
   },
   render() {

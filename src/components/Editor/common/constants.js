@@ -36,6 +36,7 @@ export const LabelState = {
 }
 
 export const EditorEvent = {
+  onAfterEditorReady: 'onAfterEditorReady',
   /** 调用命令之前触发 */
   onBeforeExecuteCommand: 'onBeforeExecuteCommand',
   /** 调用命令之后触发 */

@@ -176,7 +176,7 @@ export default {
         model: this.edge.getModel()
       }
       graph.remove(this.edge)
-      this.commandManager.execute(EditorBuiltInCommand.Add, params)
+      this.core.commandManager.execute(EditorBuiltInCommand.Add, params)
       graph.emit(GraphCustomEvent.onAfterConnect, {
         edge: this.edge
       })

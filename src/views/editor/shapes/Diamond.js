@@ -1,4 +1,4 @@
-import { ItemState, optimizeMultilineText } from './node_modules/@/components/Editor'
+import { ItemState, optimizeMultilineText } from '@/components/Editor'
 
 const WRAPPER_BORDER_WIDTH = 2
 const WRAPPER_HORIZONTAL_PADDING = 20
@@ -33,10 +33,10 @@ export default {
         height,
         ...wrapperStyle,
         points: [
-          [width / 2, -WRAPPER_BORDER_WIDTH * 2],
-          [width, height / 2 - WRAPPER_BORDER_WIDTH * 2],
-          [width / 2, height - WRAPPER_BORDER_WIDTH * 2],
-          [0, height / 2 - WRAPPER_BORDER_WIDTH * 2]
+          [width / 2, 0],
+          [width, height / 2],
+          [width / 2, height],
+          [0, height / 2]
         ]
       }
     })
@@ -49,7 +49,7 @@ export default {
         height,
         ...contentStyle,
         points: [
-          [width / 2, 0],
+          [width / 2, WRAPPER_BORDER_WIDTH * 2],
           [width, height / 2],
           [width / 2, height],
           [0, height / 2]
@@ -69,7 +69,6 @@ export default {
         }
       })
       const { fontStyle, fontWeight, fontSize, fontFamily } = textShape.attr()
-      const text = model.label
       const font = `${fontStyle} ${fontWeight} ${fontSize}px ${fontFamily}`
 
       textShape.attr({
@@ -88,7 +87,7 @@ export default {
       if (value) {
         wrapperShape.attr({
           points: [
-            [width / 2, -WRAPPER_BORDER_WIDTH * 2],
+            [width / 2, 0],
             [width + WRAPPER_BORDER_WIDTH, height / 2],
             [width / 2, height + WRAPPER_BORDER_WIDTH],
             [-WRAPPER_BORDER_WIDTH, height / 2]
@@ -97,10 +96,10 @@ export default {
       } else {
         wrapperShape.attr({
           points: [
-            [width / 2, -WRAPPER_BORDER_WIDTH * 2],
-            [width + WRAPPER_BORDER_WIDTH, height / 2],
-            [width / 2, height - WRAPPER_BORDER_WIDTH * 2],
-            [-WRAPPER_BORDER_WIDTH, height / 2]
+            [width / 2, 0],
+            [width, height / 2],
+            [width / 2, height],
+            [0, height / 2]
           ]
         })
       }

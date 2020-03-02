@@ -1,20 +1,27 @@
 import G6 from '@antv/g6'
 import merge from 'lodash/merge'
+import debounce from 'lodash/debounce'
 import cloneDeep from 'lodash/cloneDeep'
-import { guid, getGraphState } from '../utils'
+import { guid, getGraphState, generatePreview } from '../utils'
 import CommandManager from './CommandManager'
 import BehaviorManager from './BehaviorManager'
 import BuiltInNodes from '../built-in/shape/nodes'
 import BuiltInEdges from '../built-in/shape/edges'
 import { ItemState, EditorEvent } from '../common/constants'
 import bindHandles from '../built-in/common/bindHandles'
+import { EventEmitter } from 'events'
 
-export default class EditorCore {
+export default class EditorCore extends EventEmitter {
   guid = null
   graph = null
   commandManager = null
   behaviorManager = null
-  shapePreview = {}
+  // 预览图的缓存
+  shapes = {}
+  // 拖拽用的标记和缓存
+  fromModelClassName = 'delegate-model'
+  fromModel = null
+  // 复制粘贴的缓存
   clipboard = { models: [] }
   defaultConfig = {
     defaultNode: {
@@ -24,6 +31,10 @@ export default class EditorCore {
       shape: 'FlowEdge'
     }
   }
+  // 延时触发ready事件, 为生成预览图提供空白场景
+  startReadyEventListener = debounce(function(){
+    this.emit(EditorEvent.onAfterEditorReady)
+  }, 1000)
   editorDefaultMethodsQueue = {
     canDragNode: [
       e => !['anchor', 'banAnchor'].some(item => item === e.target.get('className'))
@@ -32,7 +43,10 @@ export default class EditorCore {
   }
 
   constructor(graphConfig, editorConfig = {}) {
+    super()
     this.initialize(graphConfig, editorConfig)
+    window.core = this
+    this.startReadyEventListener()
   }
 
   setOptions(graphConfig, editorConfig = {}) {
@@ -73,14 +87,14 @@ export default class EditorCore {
     )
   }
 
-  initialize(graphConfig, editorConfig) {
-    this.guid = guid()
+  initialize({ guid, ...graphConfig }, editorConfig) {
+    this.guid = guid || `editor-${guid()}`
     this.commandManager = new CommandManager(this)
     this.behaviorManager = new BehaviorManager(this)
     this.setOptions(graphConfig, editorConfig)
-    this.registerBuiltInShape()
     this.graph = new G6.Graph(this.options)
     this.commandManager.bindCommandShortcuts()
+    this.registerBuiltInShape()
   }
 
   // 为Register控件提供外部接口
@@ -91,7 +105,9 @@ export default class EditorCore {
         const { extend, ...config } = options
         const drawConfig = bindHandles(config)
         G6.registerNode(name, drawConfig, extend)
-        this.buildPreview(name, drawConfig, extend)
+        this.shapes[name] = drawConfig
+        this.buildPreview()
+        this.startReadyEventListener()
         break
       }
       case 'edge': {
@@ -137,7 +153,7 @@ export default class EditorCore {
   }
 
   buildPreview() {
-    
+    generatePreview(this.shapes, this)
   }
 
   canDragNode(...args) {

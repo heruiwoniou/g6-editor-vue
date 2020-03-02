@@ -11,6 +11,7 @@ const CONTENT_CLASS_NAME = 'node-content'
 const LABEL_CLASS_NAME = 'node-label'
 
 const BaseNode = {
+  name: 'FlowNode',
   options: {
     size: [120, 60],
     wrapperStyle: {
@@ -61,9 +62,9 @@ const BaseNode = {
       className: WRAPPER_CLASS_NAME,
       attrs: {
         x: 0,
-        y: -WRAPPER_BORDER_WIDTH * 2,
+        y: 0,
         width,
-        height: height + WRAPPER_BORDER_WIDTH * 2,
+        height: height,
         ...wrapperStyle
       }
     })
@@ -79,9 +80,9 @@ const BaseNode = {
       className: CONTENT_CLASS_NAME,
       attrs: {
         x: 0,
-        y: 0,
+        y: WRAPPER_BORDER_WIDTH * 2,
         width,
-        height,
+        height: height - WRAPPER_BORDER_WIDTH * 2,
         ...contentStyle
       }
     })
@@ -163,16 +164,16 @@ const BaseNode = {
       if (value) {
         wrapperShape.attr({
           x: -WRAPPER_BORDER_WIDTH,
-          y: -WRAPPER_BORDER_WIDTH * 2,
+          y: 0,
           width: width + WRAPPER_BORDER_WIDTH * 2,
-          height: height + WRAPPER_BORDER_WIDTH * 3
+          height: height + WRAPPER_BORDER_WIDTH
         })
       } else {
         wrapperShape.attr({
           x: 0,
-          y: -WRAPPER_BORDER_WIDTH * 2,
+          y: 0,
           width,
-          height: height + WRAPPER_BORDER_WIDTH * 2
+          height,
         })
       }
     }

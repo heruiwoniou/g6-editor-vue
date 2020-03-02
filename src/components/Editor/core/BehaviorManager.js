@@ -19,7 +19,7 @@ export default class BehaviorManager {
     name = this.wrapBehaviorName(name)
     this.behaviors[name] = behavior
     G6.registerBehavior(name, {
-      commandManager: this.commandManager,
+      core: this.core, 
       ...behavior
     })
   }
