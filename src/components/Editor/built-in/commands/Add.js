@@ -2,7 +2,7 @@ import { ItemType } from '../../common/constants'
 import { guid } from '../../utils'
 
 const NODE_DEFAULT_NAME = 'Node'
-const EDGE_DEFAULT_NAME = 'Label'
+const EDGE_DEFAULT_NAME = ''
 
 export default {
   name: 'AddNode',

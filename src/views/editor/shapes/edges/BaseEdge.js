@@ -1,9 +1,10 @@
-import { ItemState } from '../../../common/constants'
+import { ItemState } from '@/components/Editor'
 
 const EDGE_LABEL_CLASS_NAME = 'edge-label'
 const EDGE_LABEL_WRAPPER_CLASS_NAME = 'edge-label-wrapper-label'
 
-const FlowEdge = {
+const BaseEdge = {
+  name: 'BaseEdge',
   extend: 'polyline',
   options: {
     style: {
@@ -130,4 +131,4 @@ const FlowEdge = {
   }
 }
 
-export default FlowEdge
+export default BaseEdge

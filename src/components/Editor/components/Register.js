@@ -1,7 +1,7 @@
 import inject from '../common/inject'
 
 const create = (type, props = { name: String, config: Object }) => {
-  const base = {
+  return {
     mixins: [inject],
     props,
     async mounted() {
@@ -12,8 +12,6 @@ const create = (type, props = { name: String, config: Object }) => {
       return null
     }
   }
-
-  return base
 }
 
 export const RegisterNode = create('node')

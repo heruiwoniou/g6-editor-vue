@@ -5,8 +5,6 @@ import cloneDeep from 'lodash/cloneDeep'
 import { guid, getGraphState, generatePreview } from '../utils'
 import CommandManager from './CommandManager'
 import BehaviorManager from './BehaviorManager'
-import BuiltInNodes from '../built-in/shape/nodes'
-import BuiltInEdges from '../built-in/shape/edges'
 import { ItemState, EditorEvent } from '../common/constants'
 import bindHandles from '../built-in/common/bindHandles'
 import { EventEmitter } from 'events'
@@ -23,14 +21,7 @@ export default class EditorCore extends EventEmitter {
   fromModel = null
   // 复制粘贴的缓存
   clipboard = { models: [] }
-  defaultConfig = {
-    defaultNode: {
-      shape: 'FlowNode'
-    },
-    defaultEdge: {
-      shape: 'FlowEdge'
-    }
-  }
+  defaultConfig = { }
   // 延时触发ready事件, 为生成预览图提供空白场景
   startReadyEventListener = debounce(function(){
     this.emit(EditorEvent.onAfterEditorReady)
@@ -94,7 +85,6 @@ export default class EditorCore extends EventEmitter {
     this.setOptions(graphConfig, editorConfig)
     this.graph = new G6.Graph(this.options)
     this.commandManager.bindCommandShortcuts()
-    this.registerBuiltInShape()
   }
 
   // 为Register控件提供外部接口
@@ -124,16 +114,6 @@ export default class EditorCore extends EventEmitter {
         break
       }
     }
-  }
-
-  registerBuiltInShape() {
-    Object.keys(BuiltInNodes).forEach(nodeName => {
-      this.regsitor(nodeName, BuiltInNodes[nodeName], 'node')
-    })
-
-    Object.keys(BuiltInEdges).forEach(edgeName => {
-      this.regsitor(edgeName, BuiltInEdges[edgeName], 'edge')
-    })
   }
 
   read(data) {

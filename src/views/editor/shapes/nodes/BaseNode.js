@@ -1,7 +1,6 @@
 import merge from 'lodash/merge'
 import isArray from 'lodash/isArray'
-import { ItemState } from '../../../common/constants'
-import { optimizeMultilineText } from '../../../utils'
+import { ItemState, optimizeMultilineText } from '@/components/Editor'
 
 const WRAPPER_BORDER_WIDTH = 2
 const WRAPPER_HORIZONTAL_PADDING = 10
@@ -11,7 +10,7 @@ const CONTENT_CLASS_NAME = 'node-content'
 const LABEL_CLASS_NAME = 'node-label'
 
 const BaseNode = {
-  name: 'FlowNode',
+  name: 'BaseNode',
   options: {
     size: [120, 60],
     wrapperStyle: {

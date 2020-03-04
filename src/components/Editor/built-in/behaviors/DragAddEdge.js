@@ -28,7 +28,7 @@ function nextNodeCheck(source, item, linkRule) {
 
 export default {
   getDefaultCfg() {
-    return { edgeType: 'FlowEdge', allowMultiEdge: true }
+    return { edgeType: this.core.options.defaultEdge.shape || '', allowMultiEdge: true }
   },
 
   getEvents() {

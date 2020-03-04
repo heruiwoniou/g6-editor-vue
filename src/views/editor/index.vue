@@ -39,7 +39,17 @@
             </div>
           </template>
         </Items>
-        <Graph :data="data">
+        <Graph
+          :data="data"
+          :graphConfig="{
+            defaultNode: {
+              shape: 'BaseNode'
+            },
+            defaultEdge: {
+              shape: 'BaseEdge'
+            }
+          }"
+        >
           <div class="editor-layout__graph"></div>
         </Graph>
         <div class="editor-layout__other">
@@ -47,6 +57,8 @@
           <div class="editor-layout__minimap"></div>
         </div>
       </div>
+      <RegisterEdge :name="shapes.BaseEdge.name" :config="shapes.BaseEdge" />
+      <RegisterNode :name="shapes.BaseNode.name" :config="shapes.BaseNode" />
       <RegisterNode :name="shapes.Diamond.name" :config="shapes.Diamond" />
       <RegisterNode :name="shapes.Circle.name" :config="shapes.Circle" />
     </div>
@@ -54,25 +66,29 @@
 </template>
 <script>
 import data from '@/mock/data.json'
-import Diamond from './shapes/Diamond'
-import Circle from './shapes/Circle'
+import { BaseEdge } from './shapes/edges'
+import { BaseNode, Circle ,Diamond } from './shapes/nodes'
 import Editor, {
   Graph,
   Command,
   Items,
   Item,
   RegisterNode,
+  RegisterEdge,
   EditorBuiltInCommand,
   ItemType
 } from '@/components/Editor'
 
 export default {
   name: 'App',
-  components: { Editor, Graph, Command, Items, Item, RegisterNode },
+  components: { Editor, Graph, Command, Items, Item, RegisterNode, RegisterEdge },
   data() {
     return {
       data,
       shapes: {
+        BaseEdge,
+
+        BaseNode,
         Diamond,
         Circle
       },
@@ -80,17 +96,8 @@ export default {
         { name: '撤销', cmd: EditorBuiltInCommand.Undo, icon: 'el-icon-back' },
         { name: '重做', cmd: EditorBuiltInCommand.Redo, icon: 'el-icon-right' },
         '|',
-        {
-          name: '添加FlowNode',
-          cmd: EditorBuiltInCommand.Add,
-          icon: 'el-icon-circle-plus-outline'
-        },
-        {
-          name: '添加CustomRect',
-          cmd: EditorBuiltInCommand.Add,
-          icon: 'el-icon-circle-plus-outline',
-          params: { model: { shape: Diamond.name } }
-        },
+        { name: '拷贝', cmd: EditorBuiltInCommand.Copy, icon: 'el-icon-document-copy' },
+        { name: '粘贴', cmd: EditorBuiltInCommand.Paste, icon: 'el-icon-document' },
         { name: '删除', cmd: EditorBuiltInCommand.Remove, icon: 'el-icon-delete' },
         '|',
         { name: '放大', cmd: EditorBuiltInCommand.ZoomIn, icon: 'el-icon-zoom-in' },
@@ -99,20 +106,7 @@ export default {
     }
   },
   methods: {
-    onBeforeExecuteCommand(cfg) {
-      // switch (cfg.name) {
-      //   case EditorBuiltInCommand.Add: {
-      //     if (cfg.params.type === ItemType.Node) {
-      //       let name
-      //       if ((name = prompt('请输入名称'))) {
-      //         cfg.params.model.label = name || 'Node'
-      //       } else {
-      //         return false
-      //       }
-      //     }
-      //   }
-      // }
-    },
+    onBeforeExecuteCommand(cfg) {},
     onAfterExecuteCommand(params) {
       console.log(params)
     }
