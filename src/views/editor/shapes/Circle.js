@@ -7,7 +7,7 @@ const WRAPPER_CLASS_NAME = 'circle-wrapper'
 export default {
   name: 'Circle',
   options: {
-    size: [120],
+    size: [100],
     wrapperStyle: {
       fill: '#5487ea',
       radius: 8
@@ -33,7 +33,7 @@ export default {
       attrs: {
         x: r,
         y: r,
-        r,
+        r: r - WRAPPER_BORDER_WIDTH,
         width,
         height,
         ...wrapperStyle
@@ -43,8 +43,8 @@ export default {
     group.addShape('circle', {
       attrs: {
         x: r,
-        y: r,
-        r: r - WRAPPER_BORDER_WIDTH,
+        y: r + WRAPPER_BORDER_WIDTH,
+        r: r - 2 * WRAPPER_BORDER_WIDTH,
         width,
         height,
         ...contentStyle
@@ -81,11 +81,11 @@ export default {
     if (name === ItemState.Selected) {
       if (value) {
         wrapperShape.attr({
-          r: r + WRAPPER_BORDER_WIDTH,
+          r: r,
         })
       } else {
         wrapperShape.attr({
-          r,
+          r: r - WRAPPER_BORDER_WIDTH,
         })
       }
     }

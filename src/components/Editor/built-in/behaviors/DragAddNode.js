@@ -82,14 +82,13 @@ export default  {
 
     const model = core.fromModel
 
-    if (model.center === 'topLeft') {
-      x -= width / 2;
-      y -= height / 2;
-    }
+    // TODO: 后继设置一个中心参数, 让控制定位
+    x -= width / 2;
+    y -= height / 2;
 
     this.shape.remove(true);
 
-    this.core.commandManager.execute(graph, EditorBuiltInCommand.Add, {
+    this.core.commandManager.execute(EditorBuiltInCommand.Add, {
       type: ItemType.Node,
       model: {
         id: guid(),

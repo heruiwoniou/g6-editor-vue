@@ -37,6 +37,7 @@ export default {
     const vnodes = this.$scopedSlots.default({ disabled: this.disabled })
     if (vnodes && vnodes.length) {
       vnodes[0].data.on = {
+        ...vnodes[0].data.on,
         click: this.handleClick
       }
     }

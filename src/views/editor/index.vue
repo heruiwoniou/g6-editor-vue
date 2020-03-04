@@ -27,7 +27,7 @@
         <Items>
           <template v-slot="{ shapes }">
             <div class="editor-layout__items">
-              <Item v-for="(config, name) in shapes" :key="name">
+              <Item v-for="(config, name) in shapes" :key="name" :config="config">
                 <div class="editor-layout__item">
                   <div class="editor-layout__item_image">
                     <i class="el-icon-loading" v-if="config.preview === 'loading'"></i>
@@ -191,6 +191,7 @@ body {
     img {
       width: 100%;
       object-fit: contain;
+      -webkit-user-drag: none;
     }
   }
   .editor-layout__detail {
