@@ -9,7 +9,7 @@ export default {
 
   getDefaultCfg() {
     return {
-      allowKeyCode: [],
+      allowKeyCode: [32],
       notAllowKeyCode: [16]
     }
   },

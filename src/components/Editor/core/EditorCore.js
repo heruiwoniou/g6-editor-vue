@@ -21,7 +21,7 @@ export default class EditorCore extends EventEmitter {
   fromModel = null
   // 复制粘贴的缓存
   clipboard = { models: [] }
-  defaultConfig = { }
+  defaultConfig = {}
   // 延时触发ready事件, 为生成预览图提供空白场景
   startReadyEventListener = debounce(function(){
     this.emit(EditorEvent.onAfterEditorReady)

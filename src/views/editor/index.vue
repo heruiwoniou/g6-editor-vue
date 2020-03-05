@@ -41,17 +41,7 @@
             </div>
           </template>
         </Items>
-        <Graph
-          :data="data"
-          :graphConfig="{
-            defaultNode: {
-              shape: 'BaseNode'
-            },
-            defaultEdge: {
-              shape: 'BaseEdge'
-            }
-          }"
-        >
+        <Graph :data="data" :graphConfig="graphConfig">
           <div class="editor-layout__graph"></div>
         </Graph>
         <div class="editor-layout__other">
@@ -78,7 +68,7 @@
             </template>
           </Detail>
 
-          <div class="editor-layout__minimap"></div>
+          <div class="editor-layout__minimap" id="minimap-container"></div>
         </div>
       </div>
       <RegisterEdge :name="shapes.BaseEdge.name" :config="shapes.BaseEdge" />
@@ -105,6 +95,8 @@ import Editor, {
 } from '@/components/Editor'
 
 import DetailForLabel from './components/DetailForLabel'
+import Grid from '@antv/g6/build/grid'
+import MiniMap from '@antv/g6/build/minimap'
 
 export default {
   name: 'App',
@@ -121,6 +113,15 @@ export default {
   },
   data() {
     return {
+      graphConfig: {
+        plugins: [new Grid(), new MiniMap({ container: 'minimap-container', size: [300, 200] })],
+        defaultNode: {
+          shape: 'BaseNode'
+        },
+        defaultEdge: {
+          shape: 'BaseEdge'
+        }
+      },
       data,
       shapes: {
         BaseEdge,
