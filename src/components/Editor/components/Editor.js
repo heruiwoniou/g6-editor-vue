@@ -1,5 +1,6 @@
 import { createDelayCore, transformVueEventName } from '../utils'
 import { EditorEvent } from '../common/constants'
+import cloneDeep from 'lodash/cloneDeep'
 
 export default {
   name: 'Editor',
@@ -24,8 +25,12 @@ export default {
     this.bind()
   },
   methods: {
+    save() {
+      return cloneDeep(this.graph.save())
+    },
     async bind() {
       const { graph } = await this.context.delayCore.get
+      this.graph = graph;
 
       graph.on(EditorEvent.onBeforeExecuteCommand, (...args) => {
         this.$emit(transformVueEventName(EditorEvent.onBeforeExecuteCommand), ...args)

@@ -5,7 +5,7 @@ const NODE_DEFAULT_NAME = 'Node'
 const EDGE_DEFAULT_NAME = ''
 
 export default {
-  name: 'AddNode',
+  name: 'Add',
   params: {
     type: ItemType.Node,
     model: {

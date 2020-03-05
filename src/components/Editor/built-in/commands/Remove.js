@@ -2,6 +2,7 @@ import { executeBatch } from '../../utils'
 import { ItemType } from '../../common/constants'
 
 export default {
+  name: 'Remove',
   params: {
     nodes: {},
     edges: {}

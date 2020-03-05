@@ -1,8 +1,10 @@
 export * from './common/constants'
+export { default as inject } from './common/inject'
 export * from './utils'
 
 export { default } from './components/Editor'
 export { default as Graph } from './components/Graph'
 export { default as Command } from './components/Command'
+export { default as Detail } from './components/Detail'
 export * from './components/Items'
 export * from './components/Register'

@@ -1,5 +1,6 @@
 <template>
   <Editor
+    ref="editor"
     mode="edit"
     @before-execute-command="onBeforeExecuteCommand"
     @after-execute-command="onAfterExecuteCommand"
@@ -22,6 +23,7 @@
             </template>
           </Command>
         </li>
+        <li><el-button type="primary" size="mini" @click="save">保存数据</el-button></li>
       </ul>
       <div class="editor-layout__main">
         <Items>
@@ -53,7 +55,29 @@
           <div class="editor-layout__graph"></div>
         </Graph>
         <div class="editor-layout__other">
-          <div class="editor-layout__detail"></div>
+          <Detail>
+            <template v-slot="{ models, graphState, commit }">
+              <div class="editor-layout__detail">
+                <div class="editor-layout__detail-title">
+                  {{ `${graphState.replace('Selected', '')}` }}
+                </div>
+                <el-alert
+                  v-if="models.length > 1 || models.length === 0"
+                  title="请选择单个节点或者边"
+                  type="success"
+                  :closable="false"
+                >
+                </el-alert>
+                <DetailForLabel
+                  class="editor-layout__detail-form"
+                  v-else
+                  v-model="models[0]"
+                  :commit="commit"
+                />
+              </div>
+            </template>
+          </Detail>
+
           <div class="editor-layout__minimap"></div>
         </div>
       </div>
@@ -67,21 +91,34 @@
 <script>
 import data from '@/mock/data.json'
 import { BaseEdge } from './shapes/edges'
-import { BaseNode, Circle ,Diamond } from './shapes/nodes'
+import { BaseNode, Circle, Diamond } from './shapes/nodes'
 import Editor, {
   Graph,
   Command,
   Items,
   Item,
+  Detail,
   RegisterNode,
   RegisterEdge,
   EditorBuiltInCommand,
   ItemType
 } from '@/components/Editor'
 
+import DetailForLabel from './components/DetailForLabel'
+
 export default {
   name: 'App',
-  components: { Editor, Graph, Command, Items, Item, RegisterNode, RegisterEdge },
+  components: {
+    Editor,
+    Graph,
+    Command,
+    Items,
+    Item,
+    Detail,
+    RegisterNode,
+    RegisterEdge,
+    DetailForLabel
+  },
   data() {
     return {
       data,
@@ -107,8 +144,10 @@ export default {
   },
   methods: {
     onBeforeExecuteCommand(cfg) {},
-    onAfterExecuteCommand(params) {
-      console.log(params)
+    onAfterExecuteCommand(params) {},
+    save() {
+      const data = this.$refs.editor.save()
+      debugger
     }
   }
 }
@@ -190,6 +229,15 @@ body {
   }
   .editor-layout__detail {
     flex: 1;
+  }
+  .editor-layout__detail-title {
+    text-align left;
+    padding-left: 10px;
+    line-height: 30px;
+    margin-bottom: 10px;
+  }
+  .editor-layout__detail-form {
+    padding: 0 10px
   }
   .editor-layout__minimap {
     height: 200px;

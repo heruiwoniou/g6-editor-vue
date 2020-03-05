@@ -1,6 +1,7 @@
 import pick from 'lodash/pick';
 
 export default {
+  name: 'Update',
   params: {
     id: '',
     originModel: {},
@@ -34,5 +35,5 @@ export default {
     const { id, originModel } = this.params;
 
     graph.updateItem(id, originModel);
-  },
+  }
 }
