@@ -154,13 +154,13 @@ export default {
 }
 </script>
 
-<style lang="stylus">
+<style lang="scss">
 html,
 body {
   padding: 0;
   margin: 0;
   height: 100%;
-  overflow hidden
+  overflow: hidden
 }
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
@@ -206,13 +206,13 @@ body {
   .editor-layout__item {
     display: flex;
     flex-direction: column;
-    width: 90%
-    height: 110px
+    width: 90%;
+    height: 110px;
     h5 { margin: 0; height: 25px; line-height: 25px;}
     margin-left: 5%;
     margin-top: 5%;
     border-radius: 5px;
-    background #ccc;
+    background: #ccc;
   }
   .editor-layout__item_image {
     width: 80%;
@@ -232,7 +232,7 @@ body {
     flex: 1;
   }
   .editor-layout__detail-title {
-    text-align left;
+    text-align: left;
     padding-left: 10px;
     line-height: 30px;
     margin-bottom: 10px;
@@ -250,4 +250,5 @@ body {
     flex: 1;
   }
 }
+
 </style>
