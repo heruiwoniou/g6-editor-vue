@@ -14,6 +14,7 @@ export default class EditorCore extends EventEmitter {
   graph = null
   commandManager = null
   behaviorManager = null
+  needPreview = false
   // 预览图的缓存
   shapes = {}
   // 拖拽用的标记和缓存
@@ -36,7 +37,6 @@ export default class EditorCore extends EventEmitter {
   constructor(graphConfig, editorConfig = {}) {
     super()
     this.initialize(graphConfig, editorConfig)
-    window.core = this
     this.startReadyEventListener()
   }
 
@@ -60,7 +60,6 @@ export default class EditorCore extends EventEmitter {
             },
             'zoom-canvas': {
               type: 'zoom-canvas',
-              shouldBegin: this.canDragOrZoomCanvas.bind(this)
             },
             'brush-select': {
               type: 'brush-select',
@@ -78,8 +77,9 @@ export default class EditorCore extends EventEmitter {
     )
   }
 
-  initialize({ guid, ...graphConfig }, editorConfig) {
+  initialize({ guid, needPreview, ...graphConfig }, editorConfig) {
     this.guid = guid || `editor-${guid()}`
+    this.needPreview = needPreview || false;
     this.commandManager = new CommandManager(this)
     this.behaviorManager = new BehaviorManager(this)
     this.setOptions(graphConfig, editorConfig)
@@ -96,7 +96,7 @@ export default class EditorCore extends EventEmitter {
         const drawConfig = bindHandles(config)
         G6.registerNode(name, drawConfig, extend)
         this.shapes[name] = drawConfig
-        this.buildPreview()
+        this.needPreview && this.buildPreview()
         this.startReadyEventListener()
         break
       }

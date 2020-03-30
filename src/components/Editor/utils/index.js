@@ -259,7 +259,7 @@ export function clipImage(getOriginalImage, index) {
   canvasContext.backingStorePixelRatio || 1,
   ratio = devicePixelRatio / backingStoreRatio;
 
-  setTimeout(async () => {
+  setTimeout(() => {
     const { shape, shapeName, original, clipWidth, clipHeight } = getOriginalImage()
     img.src = original
    

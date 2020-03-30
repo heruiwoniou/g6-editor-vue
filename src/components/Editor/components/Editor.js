@@ -28,16 +28,17 @@ export default {
     save() {
       return cloneDeep(this.graph.save())
     },
-    async bind() {
-      const { graph } = await this.context.delayCore.get
-      this.graph = graph;
+    bind() {
+      this.context.delayCore.get.then(({ graph }) => {
+        this.graph = graph
 
-      graph.on(EditorEvent.onBeforeExecuteCommand, (...args) => {
-        this.$emit(transformVueEventName(EditorEvent.onBeforeExecuteCommand), ...args)
+        graph.on(EditorEvent.onBeforeExecuteCommand, (...args) => {
+          this.$emit(transformVueEventName(EditorEvent.onBeforeExecuteCommand), ...args)
+        })
+        graph.on(EditorEvent.onAfterExecuteCommand, (...args) =>
+          this.$emit(transformVueEventName(EditorEvent.onAfterExecuteCommand), ...args)
+        )
       })
-      graph.on(EditorEvent.onAfterExecuteCommand, (...args) =>
-        this.$emit(transformVueEventName(EditorEvent.onAfterExecuteCommand), ...args)
-      )
     }
   },
   render() {

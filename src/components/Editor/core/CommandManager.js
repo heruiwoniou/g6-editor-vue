@@ -98,6 +98,7 @@ export default class CommandManager {
   }
 
   bindCommandShortcuts() {
+    // eslint-disable-next-line no-undef
     window.addEventListener(GraphCommonEvent.onMouseDown, e => {
       this.lastMousedownTarget = e.target;
     });

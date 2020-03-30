@@ -19,18 +19,20 @@ export default {
       disabled: false
     }
   },
-  async mounted() {
-    const { graph, commandManager } = await this.delayCore
-    graph.on(
-      EditorEvent.onGraphStateChange,
-      () => (this.disabled = !commandManager.canExecute(this.name))
-    )
-    this.disabled = !commandManager.canExecute(this.name)
+  mounted() {
+    this.delayCore.then(({ graph, commandManager }) => {
+      graph.on(
+        EditorEvent.onGraphStateChange,
+        () => (this.disabled = !commandManager.canExecute(this.name))
+      )
+      this.disabled = !commandManager.canExecute(this.name)
+    })
   },
   methods: {
-    async handleClick() {
-      const { commandManager } = await this.delayCore
-      commandManager.execute(this.name, cloneDeep(this.params))
+    handleClick() {
+      this.delayCore.then(({ commandManager }) => {
+        commandManager.execute(this.name, cloneDeep(this.params))
+      }) 
     }
   },
   render() {

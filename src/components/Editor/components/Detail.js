@@ -13,27 +13,28 @@ export default {
       loaded: false
     }
   },
-  async mounted() {
-    const core = await this.delayCore
-    core.graph.on(EditorEvent.onGraphStateChange, ({ graphState }) => {
-      if (
-        [
-          GraphState.CanvasSelected,
-          GraphState.NodeSelected,
-          GraphState.EdgeSelected,
-          GraphState.MultiSelected
-        ].includes(graphState)
-      ) {
-        const nodes = getSelectedNodes(this.core.graph)
-        const edges = getSelectedEdges(this.core.graph)
+  mounted() {
+    this.delayCore.then(core => {
+      core.graph.on(EditorEvent.onGraphStateChange, ({ graphState }) => {
+        if (
+          [
+            GraphState.CanvasSelected,
+            GraphState.NodeSelected,
+            GraphState.EdgeSelected,
+            GraphState.MultiSelected
+          ].includes(graphState)
+        ) {
+          const nodes = getSelectedNodes(this.core.graph)
+          const edges = getSelectedEdges(this.core.graph)
 
-        const models = [...nodes, ...edges].map(o => o.getModel())
-        this.models = models
-        this.graphState = graphState
-      }
+          const models = [...nodes, ...edges].map(o => o.getModel())
+          this.models = models
+          this.graphState = graphState
+        }
+      })
+      this.core = core
+      this.loaded = true
     })
-    this.core = core
-    this.loaded = true
   },
   methods: {
     commit(model) {

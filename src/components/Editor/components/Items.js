@@ -11,35 +11,37 @@ export const Items = {
       }
     }
   },
-  async mounted() {
-    const core = await this.delayCore
-    core.once(EditorEvent.onAfterEditorReady, () => {
-      this.data.shapes = core.shapes
-      this.bind()
+  mounted() {
+    this.delayCore.then(core => {
+      core.once(EditorEvent.onAfterEditorReady, () => {
+        this.data.shapes = core.shapes
+        this.bind()
+      })
     })
   },
   methods: {
     bind() {
       document.addEventListener('mouseup', this.onMouseUp)
     },
-    async onMouseUp() {
-      const core = await this.delayCore
-      const { graph } = core
+    onMouseUp() {
+      this.delayCore.then(core => {
+        const { graph } = core
 
-      if (graph.getCurrentMode() === GraphMode.Default) {
-        return
-      }
+        if (graph.getCurrentMode() === GraphMode.Default) {
+          return
+        }
 
-      const group = graph.get('group')
-      const shape = group.findByClassName(core.fromModelClassName)
+        const group = graph.get('group')
+        const shape = group.findByClassName(core.fromModelClassName)
 
-      if (shape) {
-        shape.remove(true)
-        graph.paint()
-      }
+        if (shape) {
+          shape.remove(true)
+          graph.paint()
+        }
 
-      core.fromModel = null
-      graph.setMode(GraphMode.Default)
+        core.fromModel = null
+        graph.setMode(GraphMode.Default)
+      })
     }
   },
   render() {
@@ -53,20 +55,21 @@ export const Item = {
     config: Object
   },
   methods: {
-    async handleMouseDown() {
-      const core = await this.delayCore
-      const {
-        name,
-        options: { size }
-      } = this.config
+    handleMouseDown() {
+      this.delayCore.then(core => {
+        const {
+          name,
+          options: { size }
+        } = this.config
 
-      const [width, height = width] = isArray(size) ? size : [size]
+        const [width, height = width] = isArray(size) ? size : [size]
 
-      core.fromModel = {
-        shape: name,
-        size: [width, height]
-      }
-      core.graph.setMode(GraphMode.AddNode)
+        core.fromModel = {
+          shape: name,
+          size: [width, height]
+        }
+        core.graph.setMode(GraphMode.AddNode)
+      })
     }
   },
   render() {

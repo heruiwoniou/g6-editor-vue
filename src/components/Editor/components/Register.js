@@ -4,9 +4,8 @@ const create = (type, props = { name: String, config: Object }) => {
   return {
     mixins: [inject],
     props,
-    async mounted() {
-      const core = await this.delayCore
-      core.regsitor(this.name, this.config, type)
+    mounted() {
+      this.delayCore.then(core => core.regsitor(this.name, this.config, type))
     },
     render() {
       return null

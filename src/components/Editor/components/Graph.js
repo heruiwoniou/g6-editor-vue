@@ -2,6 +2,7 @@ import { guid } from '../utils'
 import EditorCore from '../core'
 import inject from '../common/inject'
 import { EditorEvent } from '../common/constants'
+import debounce from 'lodash/debounce'
 export default {
   mixins: [inject],
   props: {
@@ -32,14 +33,24 @@ export default {
     )
     core.once(EditorEvent.onAfterEditorReady, () => core.read(this.data))
     this.context.delayCore.resolve(core)
+    window.addEventListener('resize', this.resizeHandler)
   },
-  render() {
+  beforeDestory() {
+    window.removeEventListener('resize', this.resizeHandler)
+  },
+  methods: {
+    resizeHandler: debounce(function() {
+      const { clientWidth: width = 0, clientHeight: height = 0 } = this.$el || {}
+      this.delayCore.then(core => core.graph.changeSize(width, height))
+    })
+  },
+  render(h) {
     let vnodes
     if (this.$scopedSlots.default) {
       vnodes = this.$scopedSlots.default()
       vnodes[0].data.attrs = { ...vnodes[0].data.attrs, id: this.guid }
       return vnodes
     }
-    return <div id={this.guid} />
+    return h('div', { attrs: { id: this.guid } }, [])
   }
 }
