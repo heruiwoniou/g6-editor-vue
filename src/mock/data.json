@@ -1,12 +1,12 @@
 {
   "nodes": [
-    { "id": "0", "label": "Node", "x": 55, "y": 55, "shape": "BaseNode" },
-    { "id": "1", "label": "Node", "x": 55, "y": 255, "shape": "BaseNode" },
+    { "id": "0", "label": "Node", "x": 55, "y": 55, "shape": "Rect" },
+    { "id": "1", "label": "Node", "x": 55, "y": 255, "shape": "Rect" },
     {
       "id": "4ee2e6c3",
       "x": 285.5,
       "y": 55.5,
-      "shape": "BaseNode",
+      "shape": "Rect",
       "label": "Node"
     },
     {
@@ -27,7 +27,7 @@
       "id": "3644f14c",
       "x": 523.5,
       "y": 224.5,
-      "shape": "BaseNode",
+      "shape": "Rect",
       "label": "Node"
     }
   ],

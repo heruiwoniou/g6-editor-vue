@@ -9,8 +9,8 @@ const WRAPPER_CLASS_NAME = 'node-wrapper'
 const CONTENT_CLASS_NAME = 'node-content'
 const LABEL_CLASS_NAME = 'node-label'
 
-const BaseNode = {
-  name: 'BaseNode',
+const Rect = {
+  name: 'Rect',
   options: {
     size: [120, 60],
     wrapperStyle: {
@@ -198,4 +198,4 @@ const BaseNode = {
   }
 }
 
-export default BaseNode
+export default Rect
