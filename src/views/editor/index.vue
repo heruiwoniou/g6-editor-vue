@@ -1,7 +1,7 @@
 <script>
 import data from '@/mock/data.json'
 import { BaseEdge } from './shapes/edges'
-import { Rect, Circle, Diamond } from './shapes/nodes'
+import { Rect, Circle } from './shapes/nodes'
 import Editor, {
   Graph,
   Command,
@@ -80,7 +80,6 @@ export default {
           </div>
           <RegisterEdge name={BaseEdge.name} config={BaseEdge} />
           <RegisterNode name={Rect.name} config={Rect} />
-          <RegisterNode name={Diamond.name} config={Diamond} />
           <RegisterNode name={Circle.name} config={Circle} />
         </div>
       </Editor>

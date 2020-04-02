@@ -161,11 +161,36 @@ function drawAnchor(model, group) {
   })
 }
 
+function setStateHander(name, value, item) {
+  const group = item.getContainer()
+  const model = item.getModel()
+  const states = item.getStates()
+  const options = this.getOptions(model)
+
+  options.stateClassNames.forEach(className => {
+    const shape = group.findByClassName(className)
+    const shapeName = className.split('-')[1]
+    const { [shapeName + 'Style']: normalStateStyle } = options
+    shape.attr({
+      ...normalStateStyle
+    })
+    states.forEach(state => {
+      const {
+        stateStyles: { [state]: { [shapeName + 'Style']: currentStateStyle = {} } = {} }
+      } = options
+      shape.attr({
+        ...currentStateStyle
+      })
+    })
+  })
+}
+
 function bindHandleAnchor(config) {
   const _beforeSetState = config.beforeSetState || function(name, value, item) {}
   config.beforeSetState = function(name, value, item) {
     _beforeSetState.call(this, name, value, item)
     handleAnchor.call(this, name, value, item)
+    setStateHander.call(this, name, value, item)
   }
 }
 

@@ -1,7 +1,7 @@
 {
   "nodes": [
-    { "id": "0", "label": "Node", "x": 55, "y": 55, "shape": "Rect" },
-    { "id": "1", "label": "Node", "x": 55, "y": 255, "shape": "Rect" },
+    { "id": "0", "label": "Node", "x": 0.5, "y": 0.5, "shape": "Rect" },
+    { "id": "1", "label": "Node", "x": 55.5, "y": 255.5, "shape": "Rect" },
     {
       "id": "4ee2e6c3",
       "x": 285.5,
@@ -13,7 +13,7 @@
       "id": "1f7db7f5",
       "x": 523.5,
       "y": 45.5,
-      "shape": "Diamond",
+      "shape": "Rect",
       "label": "Node"
     },
     {
@@ -33,7 +33,6 @@
   ],
   "edges": [
     {
-      "label": "Label",
       "source": "0",
       "target": "1",
       "id": "b802acab",
@@ -50,8 +49,7 @@
       "startPoint": { "x": 175.5, "y": 85, "index": 1, "id": "175.5-85" },
       "endPoint": { "x": 285, "y": 85.5, "index": 0, "id": "285-85.5" },
       "style": { "radius": 8, "offset": 24 },
-      "targetAnchor": 0,
-      "label": ""
+      "targetAnchor": 0
     },
     {
       "id": "69b9ea65",
@@ -62,8 +60,7 @@
       "startPoint": { "x": 406, "y": 85.5, "index": 1, "id": "406-85.5" },
       "endPoint": { "x": 523, "y": 85.5, "index": 0, "id": "523-85.5" },
       "style": { "radius": 8, "offset": 24 },
-      "targetAnchor": 0,
-      "label": ""
+      "targetAnchor": 0
     },
     {
       "id": "8365f298",
@@ -74,8 +71,7 @@
       "startPoint": { "x": 345.5, "y": 116, "index": 3, "id": "345.5-116" },
       "endPoint": { "x": 345.5, "y": 195, "index": 2, "id": "345.5-195" },
       "style": { "radius": 8, "offset": 24 },
-      "targetAnchor": 2,
-      "label": ""
+      "targetAnchor": 2
     },
     {
       "id": "3fa3f72d",
@@ -86,8 +82,7 @@
       "startPoint": { "x": 583.5, "y": 126, "index": 3, "id": "583.5-126" },
       "endPoint": { "x": 583.5, "y": 224, "index": 2, "id": "583.5-224" },
       "style": { "radius": 8, "offset": 24 },
-      "targetAnchor": 2,
-      "label": "关系说明"
+      "targetAnchor": 2
     }
   ],
   "groups": []

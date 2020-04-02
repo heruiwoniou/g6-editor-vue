@@ -1,4 +1,5 @@
 import { ItemState, optimizeMultilineText } from '@/components/Editor'
+import merge from 'lodash/merge'
 
 const WRAPPER_BORDER_WIDTH = 2
 const WRAPPER_HORIZONTAL_PADDING = 20
@@ -8,25 +9,37 @@ export default {
   name: 'Circle',
   options: {
     size: [100],
+    stateClassNames: [WRAPPER_CLASS_NAME],
     wrapperStyle: {
       fill: '#5487ea',
-      radius: 8
+      shadowBlur: 0,
+      shadowColor: null
     },
     contentStyle: {
-      fill: '#ffffff',
-      radius: 6
+      fill: '#ffffff'
+    },
+    stateStyles: {
+      [ItemState.Selected]: {
+        wrapperStyle: {
+          shadowBlur: 5,
+          shadowColor: '#4ea4ff'
+        }
+      }
     }
   },
+
+  getOptions(model) {
+    return merge({}, this.options, model)
+  },
+
   draw(model, group) {
     const {
-      size,
+      size: [width, height = width],
       wrapperStyle,
       contentStyle
-    } = this.options
-
-    const width = size
-    const height = size
-    const r = size / 2
+    } = this.getOptions(model)
+  
+    const r = width / 2
 
     const wrapper = group.addShape('circle', {
       className: WRAPPER_CLASS_NAME,
@@ -43,7 +56,7 @@ export default {
     group.addShape('circle', {
       attrs: {
         x: r,
-        y: r + WRAPPER_BORDER_WIDTH,
+        y: r,
         r: r - 2 * WRAPPER_BORDER_WIDTH,
         width,
         height,
@@ -70,25 +83,6 @@ export default {
       })
     }
     return wrapper
-  },
-  setState(name, value, item) {
-    const group = item.getContainer()
-    const {
-      size
-    } = this.options
-    const r = size / 2
-    const wrapperShape = group.findByClassName(WRAPPER_CLASS_NAME)
-    if (name === ItemState.Selected) {
-      if (value) {
-        wrapperShape.attr({
-          r: r,
-        })
-      } else {
-        wrapperShape.attr({
-          r: r - WRAPPER_BORDER_WIDTH,
-        })
-      }
-    }
   },
   getAnchorPoints() {
     return [
