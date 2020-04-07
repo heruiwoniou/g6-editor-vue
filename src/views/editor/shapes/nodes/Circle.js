@@ -1,7 +1,7 @@
 import { ItemState, optimizeMultilineText } from '@/components/Editor'
 import merge from 'lodash/merge'
 
-const WRAPPER_BORDER_WIDTH = 2
+const WRAPPER_BORDER_WIDTH = 1
 const WRAPPER_HORIZONTAL_PADDING = 20
 const WRAPPER_CLASS_NAME = 'circle-wrapper'
 
@@ -17,6 +17,11 @@ export default {
     },
     contentStyle: {
       fill: '#ffffff'
+    },
+    labelStyle: {
+      fill: '#000000',
+      textAlign: 'center',
+      textBaseline: 'middle'
     },
     stateStyles: {
       [ItemState.Selected]: {
@@ -36,7 +41,8 @@ export default {
     const {
       size: [width, height = width],
       wrapperStyle,
-      contentStyle
+      contentStyle,
+      labelStyle
     } = this.getOptions(model)
   
     const r = width / 2
@@ -46,7 +52,7 @@ export default {
       attrs: {
         x: r,
         y: r,
-        r: r - WRAPPER_BORDER_WIDTH,
+        r,
         width,
         height,
         ...wrapperStyle
@@ -57,7 +63,7 @@ export default {
       attrs: {
         x: r,
         y: r,
-        r: r - 2 * WRAPPER_BORDER_WIDTH,
+        r: r - WRAPPER_BORDER_WIDTH,
         width,
         height,
         ...contentStyle
@@ -69,10 +75,7 @@ export default {
         attrs: {
           x: r,
           y: r,
-          textAlign: 'center',
-          textBaseline: 'middle',
-          text: model.label,
-          fill: '#666'
+          ...labelStyle 
         }
       })
       const { fontStyle, fontWeight, fontSize, fontFamily } = textShape.attr()

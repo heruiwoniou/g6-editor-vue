@@ -24,18 +24,7 @@ export default  {
     const group = graph.get('group');
     const model= core.fromModel
 
-    const { size = 100 } = model;
-
-    let width = 0;
-    let height = 0;
-
-    if (isArray(size)) {
-      width = size[0];
-      height = size[1];
-    } else {
-      width = size;
-      height = size;
-    }
+    const { options: { size: [ width, height = width ] = [100, 100] } = {} } = model;
 
     const x = e.x - width / 2;
     const y = e.y - height / 2;

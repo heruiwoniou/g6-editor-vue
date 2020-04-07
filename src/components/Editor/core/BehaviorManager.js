@@ -11,11 +11,11 @@ export default class BehaviorManager {
     this.guid = core.guid
     this.commandManager = core.commandManager
     Object.keys(BuiltInBehaviors).forEach(behaviorName => {
-      this.registoer(behaviorName, BuiltInBehaviors[behaviorName])
+      this.regsitor(behaviorName, BuiltInBehaviors[behaviorName])
     })
   }
 
-  registoer(name, behavior) {
+  regsitor(name, behavior) {
     name = this.wrapBehaviorName(name)
     this.behaviors[name] = behavior
     G6.registerBehavior(name, {

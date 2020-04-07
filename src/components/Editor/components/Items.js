@@ -52,21 +52,16 @@ export const Items = {
 export const Item = {
   mixins: [inject],
   props: {
-    config: Object
+    params: {
+      type: Object,
+      default() { return {}}
+    }
   },
   methods: {
     handleMouseDown() {
       this.delayCore.then(core => {
-        const {
-          name,
-          options: { size }
-        } = this.config
-
-        const [width, height = width] = isArray(size) ? size : [size]
-
         core.fromModel = {
-          shape: name,
-          size: [width, height]
+          ...this.params
         }
         core.graph.setMode(GraphMode.AddNode)
       })

@@ -17,13 +17,13 @@ const EditorCardHeader = {
   }
 }
 export const EditorCardContent = {
-  inject: ['context'],
+  inject: ['cardContext'],
   props: {
     name: String,
     disabled: Boolean
   },
   mounted() {
-    this.context.headers.push({
+    this.cardContext.headers.push({
       id: this._uid,
       name: this.name,
       disabled: this.disabled
@@ -31,13 +31,13 @@ export const EditorCardContent = {
   },
   watch: {
     name(val) {
-      const header = this.context.headers.find(({ id }) => id === this._uid)
+      const header = this.cardContext.headers.find(({ id }) => id === this._uid)
       if (header) {
         header.name = val
       }
     },
     disabled(val) {
-      const header = this.context.headers.find(({ id }) => id === this._uid)
+      const header = this.cardContext.headers.find(({ id }) => id === this._uid)
       if (header) {
         header.disabled = val
       }
@@ -49,10 +49,10 @@ export const EditorCardContent = {
 }
 export default {
   components: { EditorCardHeader },
-  inject: ['context'],
+  inject: ['cardContext'],
   beforeCreate() {
     this._provided = {
-      context: Vue.observable({
+      cardContext: Vue.observable({
         headers: []
       })
     }
@@ -118,7 +118,7 @@ export default {
           <div class="editor-card">
             <div class="editor-card__header">
               <ul>
-                {this.context.headers.map((headerProps, index) => {
+                {this.cardContext.headers.map((headerProps, index) => {
                   const props = {
                     key: headerProps.id,
                     props: {

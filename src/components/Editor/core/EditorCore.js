@@ -36,6 +36,7 @@ export default class EditorCore extends EventEmitter {
 
   constructor(graphConfig, editorConfig = {}) {
     super()
+    window.core = this
     this.initialize(graphConfig, editorConfig)
     this.startReadyEventListener()
   }

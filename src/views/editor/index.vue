@@ -2,6 +2,8 @@
 import data from '@/mock/data.json'
 import { BaseEdge } from './shapes/edges'
 import { Rect, Circle } from './shapes/nodes'
+import { DragAddEdge } from './behaviors'
+import { structure, linkRule } from './common/constants'
 import Editor, {
   Graph,
   Command,
@@ -10,6 +12,7 @@ import Editor, {
   Detail,
   RegisterNode,
   RegisterEdge,
+  RegisterBehavior,
   EditorBuiltInCommand,
   ItemType
 } from '@/components/Editor'
@@ -28,18 +31,21 @@ export default {
     EditorCardContent,
     Graph,
     RegisterNode,
-    RegisterEdge
+    RegisterEdge,
+    RegisterBehavior
   },
   data() {
     return {
       graphConfig: {
         needPreview: true,
         plugins: [new Grid()],
+        allowMultiEdge: false,
         defaultNode: {
           shape: 'Rect'
         },
         defaultEdge: {
-          shape: 'BaseEdge'
+          shape: 'BaseEdge',
+          linkRule
         }
       },
       data
@@ -66,7 +72,44 @@ export default {
               <div class="editor-layout__row">
                 <div class="editor-layout__col editor-layout--auto-grow bottom-menu-bar">
                   <EditorCard>
-                    <EditorCardContent name="节点">节点</EditorCardContent>
+                    <EditorCardContent name="节点">
+                      <Items
+                        scopedSlots={{
+                          default: ({ shapes }) => {
+                            return (
+                              <div class="editor-layout__items-container">
+                                {Object.entries(structure).map(([type, conf]) => {
+                                  const shape = conf.shape
+                                  const shapeKey = `${shape}-${type}`
+                                  const shapeConf = shapes[shape]
+                                  return shapeConf ? (
+                                    <Item key={shapeKey} params={{ ...shapeConf, ...conf }}>
+                                      <div class="editor-layout__item">
+                                        <div class="editor-layout__item_image">
+                                          {shapeConf.preview === 'loading' ? (
+                                            <i class="el-icon-loading" />
+                                          ) : (
+                                            <img src={shapeConf.preview} alt="" />
+                                          )}
+                                        </div>
+                                        <h5>{conf.label}</h5>
+                                      </div>
+                                    </Item>
+                                  ) : (
+                                    <div class="editor-layout__item">
+                                      <div class="editor-layout__item_image">
+                                        <i class="el-icon-loading" />
+                                      </div>
+                                      <h5>{name}</h5>
+                                    </div>
+                                  )
+                                })}
+                              </div>
+                            )
+                          }
+                        }}
+                      />
+                    </EditorCardContent>
                     <EditorCardContent name="数据">数据</EditorCardContent>
                   </EditorCard>
                 </div>
@@ -78,6 +121,7 @@ export default {
               </EditorCard>
             </div>
           </div>
+          <RegisterBehavior name={DragAddEdge.name} config={DragAddEdge}/>
           <RegisterEdge name={BaseEdge.name} config={BaseEdge} />
           <RegisterNode name={Rect.name} config={Rect} />
           <RegisterNode name={Circle.name} config={Circle} />
@@ -148,6 +192,30 @@ body {
     border: 1px solid #dcdfe6;
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.12), 0 0 6px 0 rgba(0, 0, 0, 0.04);
     overflow: hidden;
+  }
+  .editor-layout__items-container {
+    display: flex;
+    .editor-layout__item {
+      height: 170px;
+      width: 170px;
+      text-align: center;
+      user-select: none;
+    }
+
+    .editor-layout__item_image {
+      height: 140px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      img {
+        -webkit-user-drag: none;
+      }
+    }
+
+    h5 {
+      line-height: 30px;
+      margin: 0;
+    }
   }
 }
 </style>

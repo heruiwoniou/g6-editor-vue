@@ -2,7 +2,7 @@ import merge from 'lodash/merge'
 import isArray from 'lodash/isArray'
 import { ItemState, optimizeMultilineText } from '@/components/Editor'
 
-const WRAPPER_BORDER_WIDTH = 2
+const WRAPPER_BORDER_WIDTH = 1
 const WRAPPER_HORIZONTAL_PADDING = 10
 
 const WRAPPER_CLASS_NAME = 'node-wrapper'
@@ -72,10 +72,10 @@ const Rect = {
     group.addShape('rect', {
       className: CONTENT_CLASS_NAME,
       attrs: {
-        x: WRAPPER_BORDER_WIDTH / 2,
-        y: WRAPPER_BORDER_WIDTH * 2.5,
-        width: width - WRAPPER_BORDER_WIDTH,
-        height: height - WRAPPER_BORDER_WIDTH * 3,
+        x: WRAPPER_BORDER_WIDTH,
+        y: 3 * WRAPPER_BORDER_WIDTH,
+        width: width - 2 * WRAPPER_BORDER_WIDTH,
+        height: height - 4 * WRAPPER_BORDER_WIDTH,
         ...contentStyle
       }
     })
