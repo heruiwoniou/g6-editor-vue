@@ -6,7 +6,6 @@ import { guid, getGraphState, generatePreview } from '../utils'
 import CommandManager from './CommandManager'
 import BehaviorManager from './BehaviorManager'
 import { ItemState, EditorEvent } from '../common/constants'
-import bindHandles from '../built-in/common/bindHandles'
 import { EventEmitter } from 'events'
 
 export default class EditorCore extends EventEmitter {
@@ -28,22 +27,21 @@ export default class EditorCore extends EventEmitter {
     this.emit(EditorEvent.onAfterEditorReady)
   }, 1000)
   editorDefaultMethodsQueue = {
-    canDragNode: [
-      e => !['anchor', 'banAnchor'].some(item => item === e.target.get('className'))
-    ],
-    canDragOrZoomCanvas: [() => true]
+    canDragNode: [],
+    canDragOrZoomCanvas: []
   }
 
-  constructor(graphConfig, editorConfig = {}) {
+  constructor(graphConfig) {
     super()
     window.core = this
-    this.initialize(graphConfig, editorConfig)
+    this.initialize(graphConfig)
     this.startReadyEventListener()
   }
 
-  setOptions(graphConfig, editorConfig = {}) {
+  setOptions({ canDragNode, canDragOrZoomCanvas, ...graphConfig }) {
+    const editorConf = { canDragNode, canDragOrZoomCanvas }
     Object.keys(this.editorDefaultMethodsQueue).forEach(method => {
-      let fn = editorConfig[method]
+      let fn = editorConf[method]
       fn && this.editorDefaultMethodsQueue[method].push(fn)
     })
 
@@ -78,12 +76,12 @@ export default class EditorCore extends EventEmitter {
     )
   }
 
-  initialize({ guid, needPreview, ...graphConfig }, editorConfig) {
+  initialize({ guid, needPreview, ...graphConfig }) {
     this.guid = guid || `editor-${guid()}`
     this.needPreview = needPreview || false;
     this.commandManager = new CommandManager(this)
     this.behaviorManager = new BehaviorManager(this)
-    this.setOptions(graphConfig, editorConfig)
+    this.setOptions(graphConfig)
     this.graph = new G6.Graph(this.options)
     this.commandManager.bindCommandShortcuts()
   }
@@ -93,8 +91,7 @@ export default class EditorCore extends EventEmitter {
     options = cloneDeep(options)
     switch (type) {
       case 'node': {
-        const { extend, ...config } = options
-        const drawConfig = bindHandles(config)
+        const { extend, ...drawConfig } = options
         G6.registerNode(name, drawConfig, extend)
         this.shapes[name] = drawConfig
         this.needPreview && this.buildPreview()

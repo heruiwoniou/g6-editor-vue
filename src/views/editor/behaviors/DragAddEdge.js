@@ -1,29 +1,5 @@
 import { EditorBuiltInCommand, GraphCustomEvent, ItemType, guid } from '@/components/Editor'
-
-function checkOutAndInEdge(item, type, linkRule) {
-  if (!linkRule) return true
-  const outEdge = item.getOutEdges().length
-  const inEdge = item.getInEdges().length
-  const { type: nodeType } = item.getModel()
-  const config = linkRule[nodeType]
-  if (!config) return true
-  config.in = config.in === void 0 ? Infinity : config.in
-  config.out = config.out === void 0 ? Infinity : config.out
-  if (type === 'in' && inEdge < config.in) return true
-  if (type === 'out' && outEdge < config.out) return true
-  if (inEdge < config.in && outEdge < config.out) return true
-  else return false
-}
-
-function nextNodeCheck(source, item, linkRule) {
-  if (!linkRule) return true
-  const sourceNodeShape = source.getModel().shape
-  const { shape } = item.getModel()
-  const config = linkRule[sourceNodeShape]
-  if (!config || !config.next) return true
-  if (config.next.find(s => s === shape)) return true
-  else return false
-}
+import { checkOutAndInEdge, nextNodeCheck } from '../utils'
 
 export default {
   name: 'DragAddEdge',
@@ -70,10 +46,12 @@ export default {
   addEdgeCheck(ev, inFlag = undefined) {
     const { graph, isAnchor } = this
     const linkRule = graph.get('defaultEdge').linkRule
+    const node = ev.item
+    
     // 如果点击的不是锚点就结束
     if (!isAnchor(ev)) return false
     // 出入度检查
-    return checkOutAndInEdge(ev.item, inFlag, linkRule)
+    return checkOutAndInEdge(node, inFlag, linkRule)
   },
 
   onMousedown(ev) {

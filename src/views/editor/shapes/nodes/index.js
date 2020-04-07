@@ -1,2 +1,6 @@
-export { default as Rect } from './Rect'
-export { default as Circle } from './Circle'
+import bindHandles from '../common/bindHandles'
+import OriginalRect from './Rect'
+import OriginalCircle from './Circle'
+
+export const Rect = bindHandles(OriginalRect)
+export const Circle = bindHandles(OriginalCircle)

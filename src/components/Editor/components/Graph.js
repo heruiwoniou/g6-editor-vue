@@ -12,9 +12,7 @@ export default {
       default() {
         return {}
       }
-    },
-    canDragNode: Function,
-    canDragOrZoomCanvas: Function
+    }
   },
   data() {
     return {
@@ -25,11 +23,7 @@ export default {
     const { clientWidth: width = 0, clientHeight: height = 0 } = this.$el || {}
     const { canDragNode, canDragOrZoomCanvas } = this
     const core = new EditorCore(
-      { guid: this.guid, container: this.$el, width, height, ...this.graphConfig },
-      {
-        canDragNode,
-        canDragOrZoomCanvas
-      }
+      { guid: this.guid, container: this.$el, width, height, ...this.graphConfig }
     )
     core.once(EditorEvent.onAfterEditorReady, () => core.read(this.data))
     this.context.delayCore.resolve(core)

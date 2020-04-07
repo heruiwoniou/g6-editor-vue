@@ -23,9 +23,15 @@ function handleAnchor(name, value, item) {
   const isActiveAnchor = name => name.includes('activeAnchor')
 
   const showAnchor = () => {
-    // 限制连入状态的锚点图形绘制
-    if (item.hasState('limitLink')) drawBanAnchors()
-    else drawAnchor.call(this, model, group)
+    console.log('showAnchor')
+    removeAllAnchor()
+    drawAnchor.call(this, model, group)
+  }
+
+  const showBanAnchor = () => {
+    console.log('showBanAnchor')
+    removeAllAnchor()
+    drawBanAnchor.call(this, model, group)
   }
 
   const activeAnchor = () =>
@@ -43,20 +49,17 @@ function handleAnchor(name, value, item) {
     })
 
   const showAnchorSpot = () => {
-    // 限制连入状态的锚点图形绘制
-    if (item.hasState('limitLink')) {
-      drawBanAnchors()
-    } else drawAnchor.call(this, model, group).forEach(a => a.showHotspot())
+    drawAnchor.call(this, model, group).forEach(a => a.showHotspot())
   }
   const removeAllAnchorSpot = () => !item.hasState('addingEdge') && anchors.forEach(a => a.remove())
 
   const removeAllAnchor = () => {
     anchors.forEach(a => a.remove())
   }
-  const drawBanAnchors = () => drawBanAnchor.call(this, model, group)
-
   const stateTable = [
     { e: 'hoverNode', f: 'none', t: 'showAnchor', action: showAnchor },
+    { e: 'enterLimitNode', f: 'showAnchor', t: 'showBanAnchor', action: showBanAnchor },
+    
     {
       e: 'enterAnchor',
       f: 'showAnchor',
@@ -80,7 +83,13 @@ function handleAnchor(name, value, item) {
   if (name === 'addingSource' && value) fsm.canExecAction(false)
   if (name === 'addingSource' && !value) fsm.canExecAction(true)
 
-  if (name === 'active') value ? fsm.transtion('hoverNode') : fsm.transtion('leaveNode')
+  if (name === 'active') {
+    value ? fsm.transtion('hoverNode') : fsm.transtion('leaveNode')
+  }
+
+  if (name === 'limitLink') {
+    value ? fsm.transtion('enterLimitNode') : fsm.transtion('leaveNode')
+  }
 
   if (isActiveAnchor(name)) value ? fsm.transtion('enterAnchor') : fsm.transtion('leaveAnchor')
   if (name === 'addingEdge' || name === 'addingSource')
@@ -94,7 +103,8 @@ function drawBanAnchor(model, group) {
     const width = keyShape.attr('width') || keyShape.attr('r') * 2
     const height = keyShape.attr('height') || keyShape.attr('r') * 2
     const [x, y] = [p[0], p[1]]
-    const attrs = { x: width * x, y: height * y }
+    const banImgSize = { w: 9, h: 8}
+    const attrs = { x: width * x - banImgSize.w / 2, y: height * y - banImgSize.h / 2 }
     const shape = group.addShape('image', {
       className: 'banAnchor',
       attrs: {

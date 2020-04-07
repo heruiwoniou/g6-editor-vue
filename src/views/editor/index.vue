@@ -2,7 +2,7 @@
 import data from '@/mock/data.json'
 import { BaseEdge } from './shapes/edges'
 import { Rect, Circle } from './shapes/nodes'
-import { DragAddEdge } from './behaviors'
+import { DragAddEdge, HoverAnchor, InLimitCheck, OutLimitCheck } from './behaviors'
 import { structure, linkRule } from './common/constants'
 import Editor, {
   Graph,
@@ -14,7 +14,8 @@ import Editor, {
   RegisterEdge,
   RegisterBehavior,
   EditorBuiltInCommand,
-  ItemType
+  ItemType,
+  guid as createGuid
 } from '@/components/Editor'
 
 import DetailForLabel from './components/DetailForLabel'
@@ -35,19 +36,37 @@ export default {
     RegisterBehavior
   },
   data() {
-    return {
-      graphConfig: {
-        needPreview: true,
-        plugins: [new Grid()],
-        allowMultiEdge: false,
-        defaultNode: {
-          shape: 'Rect'
-        },
-        defaultEdge: {
-          shape: 'BaseEdge',
-          linkRule
+    const guid = `editor-${createGuid()}`;
+    const HoverAnchorBehavior = `${HoverAnchor.name}-${guid}`
+    const DragAddEdgeBehavior = `${DragAddEdge.name}-${guid}`
+    const InLimitCheckBehavior = `${InLimitCheck.name}-${guid}`
+    const OutLimitCheckBehavior = `${OutLimitCheck.name}-${guid}`
+    this.graphConfig = {
+      // Graph conf
+      plugins: [new Grid()],
+      defaultNode: {
+        shape: 'Rect'
+      },
+      defaultEdge: {
+        shape: 'BaseEdge',
+        linkRule
+      },
+      modes: {
+        default: {
+          [HoverAnchorBehavior]: { type: HoverAnchorBehavior },
+          [DragAddEdgeBehavior]: { type: DragAddEdgeBehavior },
+          [InLimitCheckBehavior]: { type: InLimitCheckBehavior },
+          [OutLimitCheckBehavior]: { type: OutLimitCheckBehavior }
         }
       },
+      // Editor conf
+      guid,
+      needPreview: true,
+      canDragNode: (e) =>
+        !['anchor', 'banAnchor'].some((item) => item === e.target.get('className'))
+    }
+    
+    return {
       data
     }
   },
@@ -121,7 +140,9 @@ export default {
               </EditorCard>
             </div>
           </div>
-          <RegisterBehavior name={DragAddEdge.name} config={DragAddEdge}/>
+          <RegisterBehavior name={DragAddEdge.name} config={DragAddEdge} />
+          <RegisterBehavior name={HoverAnchor.name} config={HoverAnchor} />
+          <RegisterBehavior name={InLimitCheck.name} config={InLimitCheck} />
           <RegisterEdge name={BaseEdge.name} config={BaseEdge} />
           <RegisterNode name={Rect.name} config={Rect} />
           <RegisterNode name={Circle.name} config={Circle} />

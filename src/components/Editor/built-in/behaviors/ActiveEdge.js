@@ -1,4 +1,6 @@
+import { ItemState } from '../../common/constants'
 export default {
+  name: 'ActiveEdge',
   getEvents() {
     return {
       'edge:mouseenter': 'setAllItemStates',
@@ -18,11 +20,11 @@ export default {
     // 1.激活当前选中的边
     const { graph } = this
     const edge = e.item
-    graph.setItemState(edge, 'active', true)
+    graph.setItemState(edge, ItemState.Active, true)
 
     // 2. 激活边关联的 sourceNode 与 targetNode
-    graph.setItemState(edge.getTarget(), 'active', true)
-    graph.setItemState(edge.getSource(), 'active', true)
+    graph.setItemState(edge.getTarget(), ItemState.Active, true)
+    graph.setItemState(edge.getSource(), ItemState.Active, true)
   },
 
   clearAllItemStates(e) {
@@ -31,7 +33,7 @@ export default {
     const { graph } = this
     const edge = e.item
     graph.setItemState(edge, 'active', false)
-    graph.setItemState(edge.getTarget(), 'active', false)
-    graph.setItemState(edge.getSource(), 'active', false)
+    graph.setItemState(edge.getTarget(), ItemState.Active, false)
+    graph.setItemState(edge.getSource(), ItemState.Active, false)
   }
 }
