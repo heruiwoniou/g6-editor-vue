@@ -19,7 +19,17 @@ export const structure = {
 export const linkRule = {
   start: {
     in: 0,
-    out: 1
+    out: 1,
+    next: [
+      'corpus'
+    ]
+  },
+  corpus: {
+    in: 1,
+    next: [
+      'corpus',
+      'end'
+    ]
   },
   end: {
     out: 0

@@ -43,7 +43,7 @@ export default {
     })
   },
 
-  addEdgeCheck(ev, inFlag = undefined) {
+  addEdgeCheck(ev, inFlag = undefined, exclude) {
     const { graph, isAnchor } = this
     const linkRule = graph.get('defaultEdge').linkRule
     const node = ev.item
@@ -51,7 +51,7 @@ export default {
     // 如果点击的不是锚点就结束
     if (!isAnchor(ev)) return false
     // 出入度检查
-    return checkOutAndInEdge(node, inFlag, linkRule)
+    return checkOutAndInEdge(node, inFlag, linkRule, exclude)
   },
 
   onMousedown(ev) {
@@ -59,15 +59,11 @@ export default {
     if (!this.addEdgeCheck.call(this, ev, 'out')) return
     const node = ev.item
     const graph = this.graph
-    const linkRule = graph.get('defaultEdge').linkRule
     this.sourceNode = node
     graph.getNodes().forEach(n => {
       // 给其他所有节点加上 addingEdge 标识，
       // 让其 anchor 激活，表示可以连入
       if (n.get('id') !== node.get('id')) {
-        // 判断节点是不是 sourceNode 的后继，否则不点亮锚点
-        if (!nextNodeCheck(node, n, linkRule) || !checkOutAndInEdge(n, 'in', linkRule))
-          graph.setItemState(n, 'limitLink', true)
         graph.setItemState(n, 'addingEdge', true)
       } else graph.setItemState(n, 'addingSource', true)
     })
@@ -93,7 +89,7 @@ export default {
       const point = { x: ev.x, y: ev.y }
       // 鼠标放置到一个锚点上时，更新边
       // 否则只更新线的终点位置
-      if (this.addEdgeCheck.call(this, ev, 'in') && this.notSelf(ev)) {
+      if (this.addEdgeCheck.call(this, ev, 'in', [this.edge.get('model').id]) && this.notSelf(ev)) {
         const node = ev.item
         const model = node.getModel()
         graph.updateItem(this.edge, {
@@ -125,7 +121,7 @@ export default {
       this.edge = null
       this.addingEdge = false
     }
-    if (!this.addEdgeCheck.call(this, ev, 'in')) {
+    if (!this.addEdgeCheck.call(this, ev, 'in', this.edge ? [this.edge.get('model').id] : [])) {
       if (this.edge && this.addingEdge) {
         removEdge()
         hideAnchors()

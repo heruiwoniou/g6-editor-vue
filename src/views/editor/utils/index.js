@@ -1,8 +1,8 @@
 
-export function checkOutAndInEdge(item, type, linkRule) {
+export function checkOutAndInEdge(item, type, linkRule, exclude = []) {
   if (!linkRule) return true
   const outEdge = item.getOutEdges().length
-  const inEdge = item.getInEdges().length
+  const inEdge = item.getInEdges().filter(o => !exclude.includes(o.get('model').id)).length
   const { type: nodeType } = item.getModel()
   const config = linkRule[nodeType]
   if (!config) return true
@@ -16,10 +16,10 @@ export function checkOutAndInEdge(item, type, linkRule) {
 
 export function nextNodeCheck(source, item, linkRule) {
   if (!linkRule) return true
-  const sourceNodeShape = source.getModel().shape
-  const { shape } = item.getModel()
-  const config = linkRule[sourceNodeShape]
+  const { type: sourceNodeType } = source.get('model')
+  const { type: targetNodeType } = item.get('model')
+  const config = linkRule[sourceNodeType]
   if (!config || !config.next) return true
-  if (config.next.find(s => s === shape)) return true
+  if (config.next.find(s => s === targetNodeType)) return true
   else return false
 }

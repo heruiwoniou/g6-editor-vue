@@ -143,6 +143,7 @@ export default {
           <RegisterBehavior name={DragAddEdge.name} config={DragAddEdge} />
           <RegisterBehavior name={HoverAnchor.name} config={HoverAnchor} />
           <RegisterBehavior name={InLimitCheck.name} config={InLimitCheck} />
+          <RegisterBehavior name={OutLimitCheck.name} config={OutLimitCheck} />
           <RegisterEdge name={BaseEdge.name} config={BaseEdge} />
           <RegisterNode name={Rect.name} config={Rect} />
           <RegisterNode name={Circle.name} config={Circle} />

@@ -9,6 +9,12 @@ const {
   zIndex
 } = globalStyle
 
+function getAllAnchors (group) {
+  return group
+    .get('children')
+    .filter(e => ['anchor', 'anchorSpot', 'banAnchor'].some(a => e.get('className') === a))
+}
+
 function handleAnchor(name, value, item) {
   if (!item._anchorFSM) item._anchorFSM = FSM('none')
   const fsm = item._anchorFSM
@@ -16,49 +22,46 @@ function handleAnchor(name, value, item) {
   // 拿到 group
   const group = item.getContainer()
   // 拿到所有的锚点
-  const anchors = group
-    .get('children')
-    .filter(e => ['anchor', 'anchorSpot', 'banAnchor'].some(a => e.get('className') === a))
+  const anchors = _ => getAllAnchors(group)
 
   const isActiveAnchor = name => name.includes('activeAnchor')
 
   const showAnchor = () => {
-    console.log('showAnchor')
     removeAllAnchor()
     drawAnchor.call(this, model, group)
+    if (item.hasState('addingEdge')) {
+      anchors().forEach(a => a.showHotspot())
+    }
   }
 
   const showBanAnchor = () => {
-    console.log('showBanAnchor')
     removeAllAnchor()
     drawBanAnchor.call(this, model, group)
   }
 
   const activeAnchor = () =>
-    anchors.forEach(a => {
+    anchors().forEach(a => {
       if (a.get('index') != name.slice(-1)) return
       if (item.hasState('addingEdge')) a.setHotspotActived && a.setHotspotActived(true)
       else a.setActived()
     })
 
   const clearActivedAnchor = () =>
-    anchors.forEach(a => {
+    anchors().forEach(a => {
       if (a.get('index') != name.slice(-1)) return
       if (item.hasState('addingEdge')) a.setHotspotActived && a.setHotspotActived(false)
       else a.clearActived()
     })
 
-  const showAnchorSpot = () => {
-    drawAnchor.call(this, model, group).forEach(a => a.showHotspot())
-  }
-  const removeAllAnchorSpot = () => !item.hasState('addingEdge') && anchors.forEach(a => a.remove())
+  
+  const removeAllAnchorSpot = () => !item.hasState('addingEdge') && anchors().forEach(a => a.remove())
 
   const removeAllAnchor = () => {
-    anchors.forEach(a => a.remove())
+    anchors().forEach(a => a.remove())
   }
   const stateTable = [
     { e: 'hoverNode', f: 'none', t: 'showAnchor', action: showAnchor },
-    { e: 'enterLimitNode', f: 'showAnchor', t: 'showBanAnchor', action: showBanAnchor },
+    { e: 'enterLimitNode', t: 'showBanAnchor', action: showBanAnchor },
     
     {
       e: 'enterAnchor',
@@ -72,7 +75,7 @@ function handleAnchor(name, value, item) {
       t: 'showAnchor',
       action: clearActivedAnchor
     },
-    { e: 'drag', t: 'showAnchor', action: showAnchorSpot },
+    { e: 'drag', t: 'showAnchor', action: showAnchor },
     { e: 'dragEnd', t: 'none', action: removeAllAnchor },
     { e: 'leaveNode', t: 'none', action: removeAllAnchorSpot }
   ]
@@ -110,8 +113,8 @@ function drawBanAnchor(model, group) {
       attrs: {
         img:
           'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iOSIgaGVpZ2h0PSI4IiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxwYXRoIGQ9Ik0xLjUxNSAxLjE3Mmw1LjY1NyA1LjY1Nm0wLTUuNjU2TDEuNTE1IDYuODI4IiBzdHJva2U9IiNGRjYwNjAiIHN0cm9rZS13aWR0aD0iMS42IiBmaWxsPSJub25lIiBzdHJva2UtbGluZWNhcD0ic3F1YXJlIi8+PC9zdmc+',
-        width: 12,
-        height: 12,
+        width: banImgSize.w,
+        height: banImgSize.h,
         ...attrs
       },
       index,

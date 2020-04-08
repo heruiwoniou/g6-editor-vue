@@ -33,7 +33,7 @@ const Rect = {
       [ItemState.Selected]: {
         wrapperStyle: {
           shadowBlur: 5,
-          shadowColor: '#0075f1'
+          shadowColor: '#4ea4ff'
         }
       }
     }
