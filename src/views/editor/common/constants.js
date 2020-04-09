@@ -4,9 +4,9 @@ export const structure = {
     label: '开始',
     shape: 'Circle'
   },
-  corpus: {
-    type: 'corpus',
-    label: '语料',
+  dispose: {
+    type: 'dispose',
+    label: '处理环节',
     shape: 'Rect'
   },
   end: {
@@ -21,13 +21,13 @@ export const linkRule = {
     in: 0,
     out: 1,
     next: [
-      'corpus'
+      'dispose'
     ]
   },
-  corpus: {
+  dispose: {
     in: 1,
     next: [
-      'corpus',
+      'dispose',
       'end'
     ]
   },
