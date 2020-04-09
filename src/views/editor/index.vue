@@ -155,7 +155,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="less">
 html,
 body {
   padding: 0;
