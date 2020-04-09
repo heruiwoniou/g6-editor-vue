@@ -9,3 +9,4 @@ The editor function design comes from the [GGEditor](https://github.com/alibaba/
     <img src="https://travis-ci.org/heruiwoniou/g6-editor-vue.svg?branch=master" alt="Build Status" />
   </a>
 </p>
+
