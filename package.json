@@ -12,7 +12,6 @@
     "core-js": "^3.6.4",
     "element-ui": "^2.13.0",
     "lodash": "^4.17.15",
-    "node-sass": "^4.13.1",
     "vue": "^2.6.11",
     "vue-router": "^3.1.6"
   },
@@ -25,7 +24,6 @@
     "eslint-plugin-vue": "^6.1.2",
     "less": "^3.11.1",
     "less-loader": "^5.0.0",
-    "sass-loader": "^8.0.2",
     "vue-template-compiler": "^2.6.11"
   },
   "eslintConfig": {
