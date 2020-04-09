@@ -100,15 +100,16 @@ export default {
                                 {Object.entries(structure).map(([type, conf]) => {
                                   const shape = conf.shape
                                   const shapeKey = `${shape}-${type}`
-                                  const shapeConf = shapes[shape]
-                                  return shapeConf ? (
+                                  const hasShapeConf = !!shapes[shape]
+                                  const { preview, options, ...shapeConf } = shapes[shape] || {}
+                                  return hasShapeConf ? (
                                     <Item key={shapeKey} params={{ ...shapeConf, ...conf }}>
                                       <div class="editor-layout__item">
                                         <div class="editor-layout__item_image">
-                                          {shapeConf.preview === 'loading' ? (
+                                          {preview === 'loading' ? (
                                             <i class="el-icon-loading" />
                                           ) : (
-                                            <img src={shapeConf.preview} alt="" />
+                                            <img src={preview} alt="" />
                                           )}
                                         </div>
                                         <h5>{conf.label}</h5>

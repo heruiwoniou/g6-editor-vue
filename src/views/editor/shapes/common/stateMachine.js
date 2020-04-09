@@ -35,7 +35,6 @@ const FSM = (initState, stateTable) => {
   const canChangeState = (v) => (canChangeStateFlag = v);
 
   const transtion = (e) => {
-    console.log(e)
     if (!table) return;
     // 禁止状态改变意为着 action 也不会被执行
     if (!canChangeStateFlag) return;

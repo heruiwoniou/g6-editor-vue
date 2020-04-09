@@ -1,5 +1,50 @@
 {
-  "nodes": [],
-  "edges": [],
+  "nodes": [
+    {
+      "id": "fec00d19",
+      "x": 61.5,
+      "y": 81.5,
+      "name": "Circle",
+      "type": "start",
+      "label": "开始",
+      "shape": "Circle"
+    },
+    {
+      "id": "abc16436",
+      "x": 317.5,
+      "y": 101.5,
+      "name": "Rect",
+      "type": "corpus",
+      "label": "语料",
+      "shape": "Rect"
+    },
+    {
+      "id": "ffc5d5bc",
+      "x": 597.5,
+      "y": 81.5,
+      "name": "Circle",
+      "type": "end",
+      "label": "结束",
+      "shape": "Circle"
+    }
+  ],
+  "edges": [
+    {
+      "id": "91446a68",
+      "shape": "BaseEdge",
+      "source": "fec00d19",
+      "target": "abc16436",
+      "sourceAnchor": 1,
+      "targetAnchor": 0
+    },
+    {
+      "id": "08a821fd",
+      "shape": "BaseEdge",
+      "source": "abc16436",
+      "target": "ffc5d5bc",
+      "sourceAnchor": 1,
+      "targetAnchor": 0
+    }
+  ],
   "groups": []
 }
