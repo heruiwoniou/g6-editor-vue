@@ -230,7 +230,8 @@ export function generateFullImage(id, shapeName, shape, { graph }) {
       shape: shapeName,
       label: '',
       x,
-      y
+      y,
+      isPreview: true
     })
     const [clipWidth, clipHeight = clipWidth] = shape.options.size
     graph.paint()

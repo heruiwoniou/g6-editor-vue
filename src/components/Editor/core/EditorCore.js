@@ -87,7 +87,7 @@ export default class EditorCore extends EventEmitter {
   }
 
   // 为Register控件提供外部接口
-  regsitor(name, options, type) {
+  register(name, options, type) {
     options = cloneDeep(options)
     switch (type) {
       case 'node': {
@@ -104,11 +104,11 @@ export default class EditorCore extends EventEmitter {
         break
       }
       case 'command': {
-        this.commandManager.regsitor(name, options)
+        this.commandManager.register(name, options)
         break
       }
       case 'behavior': {
-        this.behaviorManager.regsitor(name, options)
+        this.behaviorManager.register(name, options)
         break
       }
     }

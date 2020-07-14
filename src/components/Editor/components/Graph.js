@@ -38,13 +38,7 @@ export default {
       this.delayCore.then(core => core.graph.changeSize(width, height))
     })
   },
-  render(h) {
-    let vnodes
-    if (this.$scopedSlots.default) {
-      vnodes = this.$scopedSlots.default()
-      vnodes[0].data.attrs = { ...vnodes[0].data.attrs, id: this.guid }
-      return vnodes
-    }
-    return h('div', { attrs: { id: this.guid } }, [])
+  render() {
+    return <div id={this.guid}></div>
   }
 }

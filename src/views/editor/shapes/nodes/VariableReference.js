@@ -1,28 +1,25 @@
 import merge from 'lodash/merge'
-import isArray from 'lodash/isArray'
 import { ItemState, optimizeMultilineText } from '@/components/Editor'
 
-const WRAPPER_BORDER_WIDTH = 1
 const WRAPPER_HORIZONTAL_PADDING = 10
 
 const WRAPPER_CLASS_NAME = 'node-wrapper'
-const CONTENT_CLASS_NAME = 'node-content'
 const LABEL_CLASS_NAME = 'node-label'
 
-const Rect = {
-  name: 'Rect',
+export default {
+  name: 'VariableReference',
   options: {
-    // require
+    // required
     size: [120, 60],
-    // require
-    stateClassNames: [WRAPPER_CLASS_NAME, CONTENT_CLASS_NAME, LABEL_CLASS_NAME],
+    // required
+    stateClassNames: [WRAPPER_CLASS_NAME, LABEL_CLASS_NAME],
     wrapperStyle: {
-      fill: '#5487ea',
+      fill: '#ffffff',
+      stroke: '#5487ea',
+      radius: 10,
+      lineWidth: 2,
       shadowBlur: 0,
       shadowColor: null
-    },
-    contentStyle: {
-      fill: '#ffffff'
     },
     labelStyle: {
       fill: '#000000',
@@ -43,7 +40,6 @@ const Rect = {
   },
   draw(model, group) {
     const keyShape = this.drawWapper(model, group)
-    this.drawContent(model, group)
     this.drawLabel(model, group)
 
     return keyShape
@@ -53,30 +49,16 @@ const Rect = {
       size: [width, height],
       wrapperStyle
     } = this.getOptions(model)
-    return group.addShape('rect', {
+    return group.addShape('ellipse', {
       className: WRAPPER_CLASS_NAME,
       attrs: {
-        x: 0,
-        y: 0,
+        x: width / 2,
+        y: height / 2,
+        rx: width / 2,
+        ry: height / 2,
         width,
         height: height,
         ...wrapperStyle
-      }
-    })
-  },
-  drawContent(model, group) {
-    const {
-      size: [width, height],
-      contentStyle
-    } = this.getOptions(model)
-    group.addShape('rect', {
-      className: CONTENT_CLASS_NAME,
-      attrs: {
-        x: WRAPPER_BORDER_WIDTH,
-        y: 3 * WRAPPER_BORDER_WIDTH,
-        width: width - 2 * WRAPPER_BORDER_WIDTH,
-        height: height - 4 * WRAPPER_BORDER_WIDTH,
-        ...contentStyle
       }
     })
   },
@@ -124,5 +106,3 @@ const Rect = {
     ]
   }
 }
-
-export default Rect

@@ -42,6 +42,6 @@ export default {
     }
   },
   render() {
-    return this.$scopedSlots.default()
+    return <div>{this.$scopedSlots.default()}</div>
   }
 }

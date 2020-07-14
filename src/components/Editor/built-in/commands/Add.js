@@ -1,7 +1,7 @@
 import { ItemType } from '../../common/constants'
 import { guid } from '../../utils'
 
-const NODE_DEFAULT_NAME = 'Node'
+const NODE_DEFAULT_NAME = '请设置内容'
 const EDGE_DEFAULT_NAME = ''
 
 export default {

@@ -45,7 +45,7 @@ export const Items = {
     }
   },
   render() {
-    return this.$scopedSlots.default({ shapes: this.data.shapes })
+    return <div>{this.$scopedSlots.default({ shapes: this.data.shapes })}</div>
   }
 }
 
